@@ -8,5 +8,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
+    "autoprefixer": "^10.4.21",
+    "cssnano": "^7.1.1",
+    "eslint": "^9.35.0",
+    "handlebars": "^4.7.8",
+    "live-server": "^1.2.0",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "prettier": "^3.6.2",
+    "sass": "^1.92.1"
+  }
 }
