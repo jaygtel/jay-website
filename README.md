@@ -141,13 +141,12 @@ DRY_RUN=1 ./scripts/assign-all-to-me.sh
 ---
 
 💡 These scripts are part of the workflow that makes this project repeatable and maintainable.
-They’re safe to commit to the repo, and you can re-run them anytime without breaking existing milestones or issues.
 
 ---
 
 ## 📝 Coding Style
 
-* **Readable, hobbyist-style code**: clear names, comments for intent, no cryptic tricks.
+* **Readable code**: clear names, comments for intent, no cryptic tricks.
 * **Accessibility first**: focus states, ARIA live regions, labels.
 * **Progressive enhancement**: works without JS, JS adds niceties.
 * **SCSS 7-1**: variables, mixins, utilities, mobile-first media queries.
