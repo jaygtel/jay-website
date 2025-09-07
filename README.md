@@ -157,8 +157,7 @@ They’re safe to commit to the repo, and you can re-run them anytime without br
 
 ## 📌 Roadmap
 
-See GitHub [Milestones](../../milestones) for the step-by-step breakdown (M0 → M12).
-This matches the [Step-by-Step Plan](docs/Step-by-step-plan.pdf) and \[Wireframes]\(docs/Jay Website — Full Wireframe V1.pdf).
+See GitHub [Milestones](https://github.com/jaygtel/jay-website/milestones) for the step-by-step breakdown (M0 → M12).
 
 ---
 
