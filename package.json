@@ -1,24 +1,38 @@
 {
   "name": "jay-website",
   "version": "1.0.0",
+  "description": "Modern, accessible, mobile-first personal site for Jay Telford.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf dist && mkdir -p dist/assets/css dist/assets/img dist/assets/icons dist/assets/fonts",
+    "build:css": "sass src/scss/main.scss dist/assets/css/main.css --style=compressed --no-source-map",
+    "postcss": "postcss dist/assets/css/main.css -o dist/assets/css/main.css",
+    "build:html": "node tools/build.mjs",
+    "build:assets": "cp -R src/assets/ dist/assets || true",
+    "build": "npm run clean && npm run build:css && npm run build:html && npm run build:assets && npm run postcss",
+    "dev": "npm run build && npx live-server dist --quiet"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "personal-website",
+    "accessible",
+    "mobile-first",
+    "handlebars",
+    "scss"
+  ],
+  "author": "Jay Telford",
+  "license": "MIT",
   "devDependencies": {
     "@handlebars/allow-prototype-access": "^1.0.5",
-    "autoprefixer": "^10.4.21",
-    "cssnano": "^7.1.1",
-    "eslint": "^9.35.0",
+    "autoprefixer": "^10.4.20",
+    "cssnano": "^6.0.1",
+    "eslint": "^9.9.0",
     "handlebars": "^4.7.8",
-    "live-server": "^1.2.0",
-    "postcss": "^8.5.6",
-    "postcss-cli": "^11.0.1",
-    "prettier": "^3.6.2",
-    "sass": "^1.92.1"
+    "live-server": "^1.2.2",
+    "postcss": "^8.4.39",
+    "postcss-cli": "^11.0.0",
+    "prettier": "^3.3.3",
+    "sass": "^1.77.6"
   }
 }
+
