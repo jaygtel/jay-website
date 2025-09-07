@@ -1,9 +1,7 @@
 {
   "name": "jay-website",
   "version": "1.0.0",
-  "description": "Modern, accessible, mobile-first personal site for Jay Telford.",
-  "main": "index.js",
-  "type": "module",
+  "description": "Modern, accessible, mobile-first personal site.",
   "scripts": {
     "clean": "rm -rf dist && mkdir -p dist/assets/css dist/assets/img dist/assets/icons dist/assets/fonts",
     "build:css": "sass src/scss/main.scss dist/assets/css/main.css --style=compressed --no-source-map",
@@ -13,26 +11,27 @@
     "build": "npm run clean && npm run build:css && npm run build:html && npm run build:assets && npm run postcss",
     "dev": "npm run build && npx live-server dist --quiet"
   },
-  "keywords": [
-    "personal-website",
-    "accessible",
-    "mobile-first",
-    "handlebars",
-    "scss"
-  ],
-  "author": "Jay Telford",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaygtel/jay-website.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jaygtel/jay-website/issues"
+  },
+  "homepage": "https://github.com/jaygtel/jay-website#readme",
+  "author": "Jay Telford <hello@jaytelford.me>",
   "license": "MIT",
   "devDependencies": {
-    "@handlebars/allow-prototype-access": "^1.0.5",
     "autoprefixer": "^10.4.20",
     "cssnano": "^6.0.1",
     "eslint": "^9.9.0",
     "handlebars": "^4.7.8",
+    "@handlebars/allow-prototype-access": "^1.0.5",
     "live-server": "^1.2.2",
-    "postcss": "^8.4.39",
+    "postcss": "^8.4.38",
     "postcss-cli": "^11.0.0",
     "prettier": "^3.3.3",
-    "sass": "^1.77.6"
+    "sass": "^1.77.6",
+    "vite": "^5.2.10"
   }
 }
-
