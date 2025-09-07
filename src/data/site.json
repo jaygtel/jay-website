@@ -1,5 +1,6 @@
 {
   "site": {
+    "base": "",
     "title": "Jay Telford",
     "tagline": "Modern, accessible, mobile-first personal site.",
     "canonical": "https://<your-username>.github.io/",
