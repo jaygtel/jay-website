@@ -1,6 +1,7 @@
 # Jay Telford – Personal Website
 
 Modern, accessible, mobile-first personal website built with HTML, SCSS, JavaScript (ES modules), and Handlebars templates.  
+
 Deployed automatically to GitHub Pages via GitHub Actions.
 
 ---
