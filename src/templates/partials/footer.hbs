@@ -1,0 +1,17 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer__inner">
+    {{#if site.footer}}
+    {{#if site.footer.copyright}}
+    <p class="site-footer__copy">{{site.footer.copyright}}</p>
+    {{/if}}
+
+    {{#if site.footer.links}}
+    <ul class="site-footer__links" aria-label="Secondary">
+      {{#each site.footer.links}}
+      <li><a href="{{this.href}}">{{this.label}}</a></li>
+      {{/each}}
+    </ul>
+    {{/if}}
+    {{/if}}
+  </div>
+</footer>

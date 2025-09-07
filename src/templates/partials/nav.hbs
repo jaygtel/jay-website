@@ -1,0 +1,21 @@
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="site-nav" aria-label="Primary">
+  <div class="site-nav__inner">
+    <a class="site-nav__brand" href="/">{{site.title}}</a>
+
+    <button class="site-nav__toggle" aria-expanded="false" aria-controls="nav-list">
+      <span class="sr-only">Toggle navigation</span> ☰
+    </button>
+
+    {{#if site.nav}}
+    <ul id="nav-list" class="site-nav__list">
+      {{#each site.nav}}
+      <li>
+        <a href="{{this.href}}">{{this.label}}</a>
+      </li>
+      {{/each}}
+    </ul>
+    {{/if}}
+  </div>
+</nav>

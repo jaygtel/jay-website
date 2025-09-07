@@ -1,12 +1,16 @@
-/* minimal placeholder; we’ll switch to proper 7–1 soon */
-:root { --text:#111; --bg:#fff; }
-@media (prefers-color-scheme: dark){ :root{ --text:#eee; --bg:#111; } }
+/* Entry point for site styles (mobile-first, 7–1 structure) */
 
-html { color:var(--text); background:var(--bg); }
-body { margin:0; line-height:1.5; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+/* 1) Utilities */
+@use "utilities/a11y";
 
-/* visible focus for keyboard users */
-a:focus-visible, button:focus-visible { outline:2px solid currentColor; outline-offset:3px; }
+/* 2) Base */
+@use "base/base";
 
-/* simple container to make the page readable */
-.container { width:min(100% - 2rem, 72rem); margin-inline:auto; }
+/* 3) Components */
+@use "components/nav";
+
+/* 4) Layout */
+@use "layout/hero";
+@use "layout/footer";
+
+/* (Sections, pages, vendors can be added later) */
