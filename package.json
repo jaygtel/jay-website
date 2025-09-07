@@ -2,6 +2,7 @@
   "name": "jay-website",
   "version": "1.0.0",
   "description": "Modern, accessible, mobile-first personal site.",
+  "private": true,
   "scripts": {
     "clean": "rm -rf dist && mkdir -p dist/assets/css dist/assets/img dist/assets/icons dist/assets/fonts",
     "build:css": "sass src/scss/main.scss dist/assets/css/main.css --style=compressed --no-source-map",
