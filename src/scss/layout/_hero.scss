@@ -1,0 +1,52 @@
+/* Hero: site-wide intro block (mobile-first) */
+
+.hero {
+  padding: 2rem 1rem;
+  /* comfy spacing on small screens */
+  background: #fafafa;
+  /* subtle tone to separate from nav/content */
+  border-bottom: 1px solid #eee;
+}
+
+.hero__inner {
+  width: min(100% - 2rem, 72rem);
+  /* same idea as .container without dependency */
+  margin-inline: auto;
+}
+
+/* Page H1 lives in the hero */
+.hero h1 {
+  /* fluid type without variables/mixins */
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 2.5vw + 1rem, 2.5rem);
+  line-height: 1.15;
+}
+
+/* Lede/strapline under the H1 */
+.hero__lede {
+  margin: 0 0 1rem;
+  max-width: 65ch;
+  /* readable line length */
+  font-size: clamp(1.05rem, 0.6vw + 0.9rem, 1.25rem);
+  line-height: 1.6;
+  color: #333;
+}
+
+/* CTA group (uses .button styles from base) */
+.hero p>.button,
+.hero .button {
+  margin-top: 0.25rem;
+}
+
+/* Larger screens: breathe a bit more */
+@media (min-width: 48rem) {
+  .hero {
+    padding: 3rem 1.5rem;
+  }
+
+  .hero__lede {
+    margin-bottom: 1.25rem;
+  }
+}
