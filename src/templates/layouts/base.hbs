@@ -1,31 +1,23 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  {{> meta }}
-  <link rel="preload" href="/assets/css/main.css" as="style">
-  <link rel="stylesheet" href="/assets/css/main.css">
+  {{> meta}}
+  <link rel="stylesheet" href="{{site.base}}/assets/css/main.css">
 </head>
+
 <body>
-  <header class="site-header" role="banner">
-    <nav aria-label="Primary" class="site-nav">
-      <a class="site-logo" href="#main">{{site.title}}</a>
-      <ul>
-        {{#each site.nav}}
-          <li><a href="{{this.href}}">{{this.label}}</a></li>
-        {{/each}}
-      </ul>
-    </nav>
-  </header>
+  {{> nav}}
+
+  {{> hero}} {{!-- Hero now renders on every page --}}
 
   <main id="main" tabindex="-1">
-    {{> @partial-block}}
+    {{{body}}}
   </main>
 
-  <footer class="site-footer">
-    <p>&copy; {{year}} {{site.title}}</p>
-  </footer>
+  {{> footer}}
 
-  <script type="module" src="/assets/js/main.js"></script>
+  <script type="module" src="{{site.base}}/assets/js/main.js"></script>
 </body>
-</html>
 
+</html>

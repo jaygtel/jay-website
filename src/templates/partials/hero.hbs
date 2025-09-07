@@ -1,0 +1,21 @@
+{{#if site.hero}}
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__inner">
+    {{#if site.hero.heading}}
+    <h1 id="hero-title">{{site.hero.heading}}</h1>
+    {{/if}}
+
+    {{#if site.hero.lede}}
+    <p class="hero__lede">{{site.hero.lede}}</p>
+    {{/if}}
+
+    {{#if site.hero.cta}}
+    <p>
+      <a class="button" href="{{site.hero.cta.href}}">
+        {{site.hero.cta.label}}
+      </a>
+    </p>
+    {{/if}}
+  </div>
+</section>
+{{/if}}

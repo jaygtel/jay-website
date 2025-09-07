@@ -1,20 +1,46 @@
 {
   "site": {
     "title": "Jay Telford",
-    "description": "Modern, accessible, mobile-first personal site.",
+    "tagline": "Modern, accessible, mobile-first personal site.",
     "canonical": "https://<your-username>.github.io/",
-    "twitter": "@jay",
-    "ogImage": "/assets/img/og.jpg",
     "nav": [
-      { "href": "#about", "label": "About" },
-      { "href": "#projects", "label": "Projects" },
-      { "href": "#contact", "label": "Contact" }
-    ]
-  },
-  "sections": {
-    "about": { "heading": "About", "body": "Short bio…" },
-    "projects": { "heading": "Projects", "items": [] },
-    "contact": { "heading": "Contact", "email": "hello@example.com" }
+      {
+        "href": "/",
+        "label": "Home"
+      },
+      {
+        "href": "/about/",
+        "label": "About"
+      },
+      {
+        "href": "/projects/",
+        "label": "Projects"
+      },
+      {
+        "href": "/contact/",
+        "label": "Contact"
+      }
+    ],
+    "hero": {
+      "heading": "Hello, I'm Jay",
+      "lede": "Designer-ish. Developer-ish. Always learning.",
+      "cta": {
+        "href": "/projects/",
+        "label": "See my work"
+      }
+    },
+    "footer": {
+      "copyright": "© 2025 Jay Telford",
+      "links": [
+        {
+          "href": "https://github.com/<your-handle>",
+          "label": "GitHub"
+        },
+        {
+          "href": "https://x.com/<your-handle>",
+          "label": "X"
+        }
+      ]
+    }
   }
 }
-
