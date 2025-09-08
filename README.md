@@ -1,6 +1,6 @@
 # Jay Website
 
-A modern, mobile-first, personal website built with semantic HTML and SCSS (7-1 architecture), ES module JavaScript, and Handlebars templates.  Accessible, lightweight, and deployed via GitHub Pages with a clear, repeatable build pipeline.
+A modern, mobile-first, personal website built with semantic HTML, SCSS (7-1 architecture), ES module JavaScript, and Handlebars templates.  Accessible, lightweight, and deployed via GitHub Pages with a clear, repeatable build pipeline.
 
 ---
 
