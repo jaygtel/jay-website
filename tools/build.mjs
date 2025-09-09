@@ -24,20 +24,21 @@ if (!fs.existsSync(dataPath)) {
 }
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 
-// 2 register partials
+// 2) register partials
 function registerPartials(dir, prefix = '') {
   if (!fs.existsSync(dir)) return;
   for (const file of fs.readdirSync(dir)) {
     if (!file.endsWith('.hbs')) continue;
-    const name = `${prefix}${file.replace('.hbs','')}`;
+    const name = `${prefix}${file.replace('.hbs', '')}`;
     const content = fs.readFileSync(path.join(dir, file), 'utf8');
     Handlebars.registerPartial(name, content);
+    console.log('Registered partial:', name);
   }
 }
 
-registerPartials(path.join(SRC, 'templates', 'partials'));          // e.g., "meta"
+registerPartials(path.join(SRC, 'templates', 'partials'));              // e.g., "meta"
 registerPartials(path.join(SRC, 'templates', 'sections'), 'sections/'); // e.g., "sections/home"
-registerPartials(path.join(SRC, 'templates', 'layouts'),  'layouts/');  // e.g., "layouts/base"
+registerPartials(path.join(SRC, 'templates', 'layouts'), 'layouts/');   // e.g., "layouts/base"
 
 // 3) compile the home page (index.hbs uses the base layout + sections/home)
 const pageTplPath = path.join(SRC, 'templates', 'index.hbs');
@@ -57,4 +58,3 @@ if (fs.existsSync(jsSrc)) {
 }
 
 console.log('HTML built.');
-
