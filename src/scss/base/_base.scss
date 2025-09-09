@@ -1,3 +1,6 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
 /* Base element styles (mobile-first, semantic, accessible) */
 
 /* 1) Predictable sizing */
@@ -24,11 +27,20 @@ body {
 }
 
 /* 4) Typographic rhythm */
-h1,
-h2,
+/* Use fluid type for headings, keep your original margins */
+h1 {
+  @include type($step-3, $lh-tight);
+  margin: 0 0 0.5rem;
+}
+
+h2 {
+  @include type($step-2, $lh-tight);
+  margin: 0 0 0.5rem;
+}
+
 h3,
 h4 {
-  line-height: 1.2;
+  @include type($step-1, $lh-tight);
   margin: 0 0 0.5rem;
 }
 
@@ -93,8 +105,7 @@ input[type="button"] {
 button:focus-visible,
 input[type="submit"]:focus-visible,
 input[type="button"]:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
+  @include focus-ring(3px);
 }
 
 .button:hover,

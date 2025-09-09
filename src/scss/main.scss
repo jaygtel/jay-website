@@ -10,9 +10,6 @@
 @use "abstracts/functions";
 @use "abstracts/placeholders";
 
-/* 2. Vendor (only if you add something like normalize) */
-// @use "vendor/normalize";
-
 /* 3. Base */
 @use "base/base";
 
@@ -29,3 +26,6 @@
 /* 7. Sections (explicit, not globs) */
 // Add more as needed, e.g. home/about pages
 // @use "sections/home";
+
+/* 2. Vendor (only if you add something like normalize) */
+// @use "vendor/normalize";
