@@ -1,0 +1,24 @@
+/* sections/_home.scss
+   Page-level styles specific to the homepage.
+   Spacing + simple image polish in sections.
+*/
+
+#about,
+#projects,
+#contact {
+  padding-block: 3rem;
+}
+
+#projects .card-grid {
+  margin-top: 1.5rem;
+}
+
+/* If you add standalone images in About later, give them soft corners */
+#about :where(img) {
+  border-radius: 0.5rem;
+}
+
+/* Contact form breathing room */
+#contact form {
+  margin-top: 1rem;
+}
