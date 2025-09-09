@@ -18,3 +18,19 @@
   outline: 2px solid currentColor;
   outline-offset: $offset;
 }
+
+// Multi-line text truncation (line clamp) with vendor prefixes
+@mixin line-clamp($lines: 3) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+
+  display: box;
+  /* legacy spec */
+  box-orient: vertical;
+  line-clamp: $lines;
+  /* standard property */
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
