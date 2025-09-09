@@ -1,55 +1,88 @@
 <section id="about" aria-labelledby="about-h">
   <div class="container">
-    <h1 id="about-h">{{sections.about.heading}}</h1>
-    <p>{{sections.about.body}}</p>
+    <h1 id="about-h">{{@root.sections.about.heading}}</h1>
+    <p>{{@root.sections.about.body}}</p>
   </div>
 </section>
 
 <section id="projects" aria-labelledby="projects-h">
   <div class="container">
-    <h2 id="projects-h">{{sections.projects.heading}}</h2>
-    {{#if sections.projects.items.length}}
-      <ul class="card-grid">
-        {{#each sections.projects.items}}
-          <li class="card">
-            <h3>{{this.title}}</h3>
-            {{#if this.image}}
-              <figure>
-                <img src="{{this.image.src}}" alt="{{this.image.alt}}">
-                {{#if this.caption}}<figcaption>{{this.caption}}</figcaption>{{/if}}
-              </figure>
+    <h2 id="projects-h">{{@root.sections.projects.heading}}</h2>
+
+    {{#if @root.sections.projects.items.length}}
+    <ul class="card-grid">
+      {{#each @root.sections.projects.items}}
+      <li class="card" tabindex="-1">
+        {{#if this.link}}
+        <a class="card__link" href="{{this.link.href}}">
+          {{else}}
+          <div class="card__link" aria-label="{{this.title}}">
             {{/if}}
-            <p>{{this.summary}}</p>
-            {{#if this.link}}<p><a href="{{this.link.href}}">{{this.link.label}}</a></p>{{/if}}
-          </li>
-        {{/each}}
-      </ul>
-    {{else}}
-      <p role="status">Projects coming soon.</p>
-    {{/if}}
+
+            <figure class="media-cover u-ar-3-2 card__media">
+              {{#if this.image}}
+              <img src="{{this.image.src}}" alt="{{this.image.alt}}" loading="lazy" width="600" height="400" />
+              {{/if}}
+            </figure>
+
+            <div class="card__body">
+              <h3 class="card__title">{{this.title}}</h3>
+              {{#if this.summary}}<p class="card__summary">{{this.summary}}</p>{{/if}}
+
+              {{#if this.tags}}
+              {{#if this.tags.length}}
+              <ul class="chips" aria-label="Tags">
+                {{#each this.tags}}
+                <li class="chip">{{this}}</li>
+                {{/each}}
+              </ul>
+              {{/if}}
+              {{/if}}
+
+              {{#if this.link}}<span class="card__cta">{{this.link.label}}</span>{{/if}}
+            </div>
+
+            {{#if this.link}}
+        </a>
+        {{else}}
+  </div>
+  {{/if}}
+  </li>
+  {{/each}}
+  </ul>
+  {{else}}
+  <p role="status">Projects coming soon.</p>
+  {{/if}}
   </div>
 </section>
 
 <section id="contact" aria-labelledby="contact-h">
   <div class="container">
-    <h2 id="contact-h">{{sections.contact.heading}}</h2>
+    <h2 id="contact-h">{{@root.sections.contact.heading}}</h2>
+
     <form method="post" action="#" novalidate>
       <div class="form-row">
         <label for="name">Name</label>
         <input id="name" name="name" required autocomplete="name">
       </div>
+
       <div class="form-row">
         <label for="email">Email</label>
         <input id="email" name="email" type="email" required autocomplete="email">
       </div>
+
       <div class="form-row">
         <label for="msg">Message</label>
         <textarea id="msg" name="message" rows="5" required></textarea>
       </div>
+
       <p id="form-status" class="sr-only" role="status" aria-live="polite"></p>
+
       <button type="submit">Send</button>
-      <p><strong>Or email:</strong> <a href="mailto:{{sections.contact.email}}">{{sections.contact.email}}</a></p>
+      <p>
+        <strong>Or email:</strong>
+        <a href="mailto:{{ @root.sections.contact.email }}">{{@root.sections.contact.email}}</a>
+      </p>
     </form>
   </div>
 </section>
-

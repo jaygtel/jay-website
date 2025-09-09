@@ -47,7 +47,7 @@
   "sections": {
     "about": {
       "heading": "About",
-      "body": "I'm Jay — this is placeholder content. A short bio will go here so the section isn’t empty."
+      "body": "I’m Jay — this is placeholder content. A short bio will go here so the section isn’t empty."
     },
     "projects": {
       "heading": "Projects",
@@ -62,7 +62,12 @@
           "link": {
             "href": "#",
             "label": "View Project"
-          }
+          },
+          "tags": [
+            "Handlebars",
+            "SCSS",
+            "A11y"
+          ]
         },
         {
           "title": "Sample Project Two",
@@ -74,7 +79,11 @@
           "link": {
             "href": "#",
             "label": "View Project"
-          }
+          },
+          "tags": [
+            "Node",
+            "Static Site"
+          ]
         }
       ]
     },

@@ -10,8 +10,13 @@
 @use "abstracts/functions";
 @use "abstracts/placeholders";
 
+/* 2. Vendor (optional) */
+// @use "vendor/normalize";
+
 /* 3. Base */
 @use "base/base";
+@use "base/media";
+/* NEW: global media defaults + ratio utilities */
 
 /* 4. Layout */
 @use "layout/hero";
@@ -19,13 +24,14 @@
 
 /* 5. Components */
 @use "components/nav";
+@use "components/cards";
+/* NEW: card grid + styles */
+@use "components/chips";
+/* NEW: tag chips */
 
 /* 6. Utilities */
 @use "utilities/a11y";
 
-/* 7. Sections (explicit, not globs) */
-// Add more as needed, e.g. home/about pages
-// @use "sections/home";
-
-/* 2. Vendor (only if you add something like normalize) */
-// @use "vendor/normalize";
+/* 7. Sections */
+@use "sections/home";
+/* NEW: home page spacing/tweaks */
