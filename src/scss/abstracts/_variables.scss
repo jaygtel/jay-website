@@ -1,0 +1,43 @@
+// Design tokens — small, AA-friendly, mobile-first.
+// Note: adding tokens does NOT change current styles until we use them.
+
+//// Colors (light)
+$color-bg: #ffffff;
+$color-fg: #111111;
+$color-muted: #555555;
+$color-border: #e5e7eb;
+$color-accent: #2563eb; // for links/CTAs, if/when you use it
+$color-accent-contrast: #ffffff;
+
+//// Optional dark (only if you hook it up later)
+$dark-bg: #0b0b0c;
+$dark-fg: #eaeaea;
+$dark-muted: #a3a3a3;
+$dark-border: #26272a;
+$dark-accent: #60a5fa;
+$dark-accent-contrast: #0b0b0c;
+
+//// Spacing (4px base)
+$space-0: 0;
+$space-1: 0.25rem; // 4px
+$space-2: 0.5rem; // 8px
+$space-3: 0.75rem; // 12px
+$space-4: 1rem; // 16px
+$space-5: 1.5rem; // 24px
+$space-6: 2rem; // 32px
+$space-7: 3rem; // 48px
+
+//// Typography
+$font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+//// Fluid type (mobile-first)
+$step--1: clamp(0.85rem, 0.82rem + 0.2vw, 0.95rem);
+$step-0: clamp(1rem, 0.98rem + 0.3vw, 1.125rem);
+$step-1: clamp(1.25rem, 1.18rem + 0.6vw, 1.5rem);
+$step-2: clamp(1.563rem, 1.4rem + 1vw, 1.875rem);
+$step-3: clamp(1.953rem, 1.7rem + 1.5vw, 2.25rem);
+
+$lh-tight: 1.2;
+$lh-normal: 1.5;
+$measure: 65ch; // comfortable reading width
