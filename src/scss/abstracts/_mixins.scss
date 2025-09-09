@@ -1,0 +1,20 @@
+@use "variables" as *;
+
+// Mobile-first min-width helper
+@mixin min($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+// Fluid type helper
+@mixin type($size-step, $line-height: $lh-normal) {
+  font-size: $size-step;
+  line-height: $line-height;
+}
+
+// Focus ring (respects currentColor)
+@mixin focus-ring($offset: 3px) {
+  outline: 2px solid currentColor;
+  outline-offset: $offset;
+}

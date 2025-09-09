@@ -1,16 +1,31 @@
-/* Entry point for site styles (mobile-first, 7–1 structure) */
+/* 
+==========================================================================
+   Jay Website SCSS (7–1 architecture)
+========================================================================== 
+*/
 
-/* 1) Utilities */
-@use "utilities/a11y";
+/* 1. Abstracts */
+@use "abstracts/variables";
+@use "abstracts/mixins";
+@use "abstracts/functions";
+@use "abstracts/placeholders";
 
-/* 2) Base */
+/* 3. Base */
 @use "base/base";
 
-/* 3) Components */
-@use "components/nav";
-
-/* 4) Layout */
+/* 4. Layout */
 @use "layout/hero";
 @use "layout/footer";
 
-/* (Sections, pages, vendors can be added later) */
+/* 5. Components */
+@use "components/nav";
+
+/* 6. Utilities */
+@use "utilities/a11y";
+
+/* 7. Sections (explicit, not globs) */
+// Add more as needed, e.g. home/about pages
+// @use "sections/home";
+
+/* 2. Vendor (only if you add something like normalize) */
+// @use "vendor/normalize";
