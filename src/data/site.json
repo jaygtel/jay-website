@@ -47,7 +47,7 @@
   "sections": {
     "about": {
       "heading": "About",
-      "body": "I’m Jay — this is placeholder content. A short bio will go here so the section isn’t empty."
+      "body": "I'm Jay — this is placeholder content. A short bio will go here so the section isn’t empty."
     },
     "projects": {
       "heading": "Projects",
@@ -56,7 +56,7 @@
           "title": "Sample Project One",
           "summary": "This is a dummy project card to test layout.",
           "image": {
-            "src": "/assets/img/sample1.jpg",
+            "src": "/assets/img/placeholder.png",
             "alt": "Placeholder image"
           },
           "link": {
@@ -68,7 +68,7 @@
           "title": "Sample Project Two",
           "summary": "Another example project card with placeholder text.",
           "image": {
-            "src": "/assets/img/sample2.jpg",
+            "src": "/assets/img/placeholder.png",
             "alt": "Placeholder image"
           },
           "link": {
