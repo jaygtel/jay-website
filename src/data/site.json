@@ -43,5 +43,44 @@
         }
       ]
     }
+  },
+  "sections": {
+    "about": {
+      "heading": "About",
+      "body": "I’m Jay — this is placeholder content. A short bio will go here so the section isn’t empty."
+    },
+    "projects": {
+      "heading": "Projects",
+      "items": [
+        {
+          "title": "Sample Project One",
+          "summary": "This is a dummy project card to test layout.",
+          "image": {
+            "src": "/assets/img/sample1.jpg",
+            "alt": "Placeholder image"
+          },
+          "link": {
+            "href": "#",
+            "label": "View Project"
+          }
+        },
+        {
+          "title": "Sample Project Two",
+          "summary": "Another example project card with placeholder text.",
+          "image": {
+            "src": "/assets/img/sample2.jpg",
+            "alt": "Placeholder image"
+          },
+          "link": {
+            "href": "#",
+            "label": "View Project"
+          }
+        }
+      ]
+    },
+    "contact": {
+      "heading": "Contact",
+      "email": "hello@example.com"
+    }
   }
 }
