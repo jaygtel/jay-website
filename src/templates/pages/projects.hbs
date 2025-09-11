@@ -5,34 +5,12 @@
   <div class="container">
     <h2 id="projects-h">Projects</h2>
 
-    {{#if projects.length}}
+    {{!-- CHANGED: now uses the same data path as Home --}}
+    {{!-- this will now pull projects directly from site.json --}}
+    {{#if @root.sections.projects.items.length}}
     <ul class="card-grid">
-      {{#each projects}}
-      <li class="card" tabindex="-1">
-        <a class="card__link" href="{{#if url}}{{url}}{{else}}#{{/if}}">
-
-          <figure class="media-cover u-ar-3-2 card__media">
-            <img src="{{#if img.src}}{{img.src}}{{else}}/assets/img/placeholder.png{{/if}}"
-              alt="{{#if img.alt}}{{img.alt}}{{else}}Project cover image{{/if}}" loading="lazy"
-              width="{{#if img.width}}{{img.width}}{{else}}600{{/if}}"
-              height="{{#if img.height}}{{img.height}}{{else}}400{{/if}}" />
-          </figure>
-
-          <div class="card__body">
-            <h3 class="card__title">{{title}}</h3>
-            {{#if summary}}<p class="card__summary">{{summary}}</p>{{/if}}
-
-            {{#if tags.length}}
-            <ul class="chips" aria-label="Tags">
-              {{#each tags}}<li class="chip">{{this}}</li>{{/each}}
-            </ul>
-            {{/if}}
-
-            <span class="card__cta">View Project</span>
-          </div>
-
-        </a>
-      </li>
+      {{#each @root.sections.projects.items}}
+      {{> project-card}}
       {{/each}}
     </ul>
     {{else}}
