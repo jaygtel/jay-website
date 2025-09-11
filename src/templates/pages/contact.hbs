@@ -1,0 +1,37 @@
+{{!-- /contact/ — reuses the same form markup/classes as Home --}}
+{{#> layouts/base}}
+
+<section id="contact" aria-labelledby="contact-h">
+  <div class="container">
+    <h2 id="contact-h">{{@root.sections.contact.heading}}</h2>
+
+    <p>To contact us, use the form below</p>
+
+    <form method="post" action="#" novalidate>
+      <div class="form-row">
+        <label for="name">Name</label>
+        <input id="name" name="name" required autocomplete="name">
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required autocomplete="email">
+      </div>
+
+      <div class="form-row">
+        <label for="msg">Message</label>
+        <textarea id="msg" name="message" rows="5" required></textarea>
+      </div>
+
+      <p id="form-status" class="sr-only" role="status" aria-live="polite"></p>
+
+      <button type="submit">Send</button>
+      <p>
+        <strong>Or email:</strong>
+        <a href="mailto:{{@root.sections.contact.email}}">{{@root.sections.contact.email}}</a>
+      </p>
+    </form>
+  </div>
+</section>
+
+{{/layouts/base}}

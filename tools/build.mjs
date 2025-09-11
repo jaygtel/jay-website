@@ -45,6 +45,7 @@ const pages = [
   ['index.hbs', 'index.html'], // builds index.html for home
   ['pages/about.hbs', path.join('about', 'index.html')], // builds index.html for about
   ['pages/projects.hbs', path.join('projects', 'index.html')], // builds index.html for projects
+  ['pages/contact.hbs', path.join('contact', 'index.html')], // builds index.htm for contact
 ];
 
 for (const [tplRel, outRel] of pages) {
