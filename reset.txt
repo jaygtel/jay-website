@@ -1,3 +1,5 @@
 this reset was fully completed.
 if this file ends up on main it means reset was sucessful and everything is pushing
 it will be deleted during the next pr
+
+testing with rules applied
