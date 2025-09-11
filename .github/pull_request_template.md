@@ -1,16 +1,14 @@
 ## Summary
-<!-- What’s shipping? Which milestone? -->
+<!-- Short, imperative description of what this PR does -->
 
-## Milestone(s)
-- M1 — Templating & Data Plumbing
+## Details
+- [ ] Explain *why* the change was made
+- [ ] Highlight accessibility (a11y) considerations if relevant
+- [ ] Note reduced-motion / mobile-first implications if relevant
 
-## Issues closed by this release
-<!-- One per line. Required for dev → main. -->
-Closes #4
-Closes #5
-Closes #6
-
-## Checklist
-- [ ] Build passes
-- [ ] Pages deploy green
-- [ ] Release notes updated (if needed)
+## Linked Issues
+<!-- Use Ref for milestone/feature PRs; Closes only for dev → main -->
+<!--- delete the ones you dont need --->
+<!--- ony add 1 per line --->
+Ref #
+Closes #
