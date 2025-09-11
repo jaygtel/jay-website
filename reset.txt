@@ -4,4 +4,4 @@ it will be deleted during the next pr
 
 testing with rules applied
 
-After resetting my settings in GraphQL this is another test.
+After resetting my settings in GraphQL this is another test...
