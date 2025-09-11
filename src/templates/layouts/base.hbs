@@ -9,10 +9,9 @@
 <body>
   {{> nav}}
 
-  {{> hero}} {{!-- Hero now renders on every page --}}
-
-  <main id="main" tabindex="-1">
-    {{> @partial-block }}
+  <main id="main" tabindex="-1" role="main">
+    {{> hero}} {{!-- H1 lives inside the main landmark --}}
+    {{> @partial-block }}{{!-- Page-specific content (About, etc.) --}}
   </main>
 
   {{> footer}}
