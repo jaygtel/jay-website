@@ -1,0 +1,69 @@
+/* base/_media.scss
+   Global, accessible media defaults + tiny ratio utilities.
+   - Mobile-first
+   - Prevent layout shifts (reserve space via aspect-ratio when used)
+*/
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  /* remove inline gap, predictable layout */
+}
+
+/* Sensible defaults for <figure>/<figcaption> */
+figure {
+  margin: 0;
+}
+
+figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+/* Ratio helpers */
+.u-ar-3-2 {
+  aspect-ratio: 3 / 2;
+}
+
+.u-ar-16-9 {
+  aspect-ratio: 16 / 9;
+}
+
+.u-ar-1-1 {
+  aspect-ratio: 1 / 1;
+}
+
+/* Cover/contain wrappers */
+.media-cover {
+  overflow: hidden;
+  background: #f1f1f1;
+  border-radius: 0.75rem;
+}
+
+.media-cover>img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-contain {
+  overflow: hidden;
+  background: #fafafa;
+  border-radius: 0.5rem;
+}
+
+.media-contain>img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .media-cover,
+  .media-contain {
+    transition: none !important;
+  }
+}

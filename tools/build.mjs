@@ -24,30 +24,46 @@ if (!fs.existsSync(dataPath)) {
 }
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 
-// 2 register partials
+// 2) register partials
 function registerPartials(dir, prefix = '') {
   if (!fs.existsSync(dir)) return;
   for (const file of fs.readdirSync(dir)) {
     if (!file.endsWith('.hbs')) continue;
-    const name = `${prefix}${file.replace('.hbs','')}`;
+    const name = `${prefix}${file.replace('.hbs', '')}`;
     const content = fs.readFileSync(path.join(dir, file), 'utf8');
     Handlebars.registerPartial(name, content);
+    console.log('Registered partial:', name);
   }
 }
 
-registerPartials(path.join(SRC, 'templates', 'partials'));          // e.g., "meta"
+registerPartials(path.join(SRC, 'templates', 'partials'));              // e.g., "meta"
 registerPartials(path.join(SRC, 'templates', 'sections'), 'sections/'); // e.g., "sections/home"
-registerPartials(path.join(SRC, 'templates', 'layouts'),  'layouts/');  // e.g., "layouts/base"
+registerPartials(path.join(SRC, 'templates', 'layouts'), 'layouts/');   // e.g., "layouts/base"
 
-// 3) compile the home page (index.hbs uses the base layout + sections/home)
-const pageTplPath = path.join(SRC, 'templates', 'index.hbs');
-const templateSrc = fs.readFileSync(pageTplPath, 'utf8');
-const compile = Handlebars.compile(templateSrc, { noEscape: true });
-const html = compile(data);
+// 3) compile pages (tiny list → tiny loop)
+const pages = [
+  ['index.hbs', 'index.html'], // builds index.html for home
+  ['pages/about.hbs', path.join('about', 'index.html')], // builds index.html for about
+  ['pages/projects.hbs', path.join('projects', 'index.html')], // builds index.html for projects
+  ['pages/contact.hbs', path.join('contact', 'index.html')], // builds index.htm for contact
+];
+
+for (const [tplRel, outRel] of pages) {
+  const tplAbs = path.join(SRC, 'templates', tplRel);
+  if (!fs.existsSync(tplAbs)) {
+    console.warn('Skipping missing template:', tplRel);
+    continue;
+  }
+  const tplFn = Handlebars.compile(fs.readFileSync(tplAbs, 'utf8'), { noEscape: true });
+  const html = tplFn(data);
+  const outAbs = path.join(DIST, outRel);
+  fs.mkdirSync(path.dirname(outAbs), { recursive: true });
+  fs.writeFileSync(outAbs, html, 'utf8');
+  console.log('Wrote:', outRel);
+}
 
 // 4) write the output + ensure JS is available in /assets/js
 fs.mkdirSync(path.join(DIST, 'assets', 'js'), { recursive: true });
-fs.writeFileSync(path.join(DIST, 'index.html'), html, 'utf8');
 
 // copy main.js (defensive: only if it exists)
 const jsSrc = path.join(SRC, 'js', 'main.js');
@@ -57,4 +73,3 @@ if (fs.existsSync(jsSrc)) {
 }
 
 console.log('HTML built.');
-

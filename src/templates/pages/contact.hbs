@@ -1,31 +1,11 @@
-<section id="about" aria-labelledby="about-h">
-  <div class="container">
-    <h2 id="about-h">{{@root.sections.about.heading}}</h2>
-    <p>{{@root.sections.about.body}}</p>
-  </div>
-</section>
-
-<section id="projects" aria-labelledby="projects-h">
-  <div class="container">
-    <h2 id="projects-h">{{@root.sections.projects.heading}}</h2>
-
-    {{!-- CHANGED: now uses the same data path as Projects --}}
-    {{!-- this will now pull projects directly from site.json --}}
-    {{#if @root.sections.projects.items.length}}
-    <ul class="card-grid">
-      {{#each @root.sections.projects.items}}
-      {{> project-card}}
-      {{/each}}
-    </ul>
-    {{else}}
-    <p role="status">Projects coming soon.</p>
-    {{/if}}
-  </div>
-</section>
+{{!-- /contact/ — reuses the same form markup/classes as Home --}}
+{{#> layouts/base}}
 
 <section id="contact" aria-labelledby="contact-h">
   <div class="container">
     <h2 id="contact-h">{{@root.sections.contact.heading}}</h2>
+
+    <p>To contact us, use the form below</p>
 
     <form method="post" action="#" novalidate>
       <div class="form-row">
@@ -48,8 +28,10 @@
       <button type="submit">Send</button>
       <p>
         <strong>Or email:</strong>
-        <a href="mailto:{{ @root.sections.contact.email }}">{{@root.sections.contact.email}}</a>
+        <a href="mailto:{{@root.sections.contact.email}}">{{@root.sections.contact.email}}</a>
       </p>
     </form>
   </div>
 </section>
+
+{{/layouts/base}}

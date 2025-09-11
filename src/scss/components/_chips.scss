@@ -1,0 +1,33 @@
+/* components/_chips.scss
+   Small, accessible tag chips. Mobile-first; no mandatory motion.
+*/
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem .75rem;
+  /* more horizontal & vertical gap */
+  margin: 0 0 1rem;
+  /* extra bottom margin to separate from CTA */
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-block;
+  padding: .35rem .75rem;
+  /* more vertical breathing room */
+  border-radius: 999px;
+  font-size: .8125rem;
+  line-height: 1.3;
+  /* looser line height */
+  background: #f3f3f3;
+  color: #222;
+  border: 1px solid #e6e6e6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip {
+    transition: none !important;
+  }
+}
