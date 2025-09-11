@@ -1,28 +1,26 @@
-cat > .gitmessage.txt <<'EOF'
 # <type>(<scope>): <short summary>
 #   type = feat | fix | chore | docs | build | ci | refactor | style | test
 #   scope = optional, e.g. home, a11y, build
 #   summary = imperative mood, <=72 chars
-
+#
 # Example:
 # fix(home): enforce single H1
-
+#
 # --- Commit Body ---
 # Explain what changed and why, wrapped at ~72 chars.
 # Focus on intent and context, not obvious syntax.
-
+#
 # Example:
 # Demote About section to H2 so the Home page only has one H1.
 # Improves semantic hierarchy and accessibility.
-
+#
 # --- Issue Reference(s) ---
-# Use Ref # for commits (we only auto-close on dev->main).
+# Use Ref # for commits (we only auto-close on dev→main).
 # Example:
-# Ref #10
+# Ref #11
 
 <type>(<scope>): <summary>
 
 <body>
 
 Ref #
-EOF

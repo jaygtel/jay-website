@@ -1,0 +1,22 @@
+{{!-- Projects page. Hero is global; this page provides the grid section. --}}
+{{#> layouts/base}}
+
+<section id="projects" aria-labelledby="projects-h">
+  <div class="container">
+    <h2 id="projects-h">Projects</h2>
+
+    {{!-- CHANGED: now uses the same data path as Home --}}
+    {{!-- this will now pull projects directly from site.json --}}
+    {{#if @root.sections.projects.items.length}}
+    <ul class="card-grid">
+      {{#each @root.sections.projects.items}}
+      {{> project-card}}
+      {{/each}}
+    </ul>
+    {{else}}
+    <p>No projects yet.</p>
+    {{/if}}
+  </div>
+</section>
+
+{{/layouts/base}}
