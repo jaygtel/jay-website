@@ -42,8 +42,9 @@ registerPartials(path.join(SRC, 'templates', 'layouts'), 'layouts/');   // e.g.,
 
 // 3) compile pages (tiny list → tiny loop)
 const pages = [
-  ['index.hbs', 'index.html'],
-  ['pages/about.hbs', path.join('about', 'index.html')],
+  ['index.hbs', 'index.html'], // builds index.html for home
+  ['pages/about.hbs', path.join('about', 'index.html')], // builds index.html for about
+  ['pages/projects.hbs', path.join('projects', 'index.html')], // builds index.html for projects
 ];
 
 for (const [tplRel, outRel] of pages) {
