@@ -1,0 +1,24 @@
+{{#> layouts/base}}
+<section id="about" aria-labelledby="about-h">
+  <div class="container">
+    <h2 id="about-h">About</h2>
+
+    {{#if about.bio}}
+    <p>{{about.bio}}</p>
+    {{else}}
+    <p>I'm Jay — this is placeholder content. A short bio will go here so the section isn’t empty.</p>
+    {{/if}}
+
+    {{#if about.skills.length}}
+    <h3>Skills</h3>
+    <ul>
+      {{#each about.skills}}<li>{{this}}</li>{{/each}}
+    </ul>
+    {{/if}}
+
+    {{#if about.contact}}
+    <p><strong>Contact:</strong> <a href="{{about.contact.url}}">{{about.contact.label}}</a></p>
+    {{/if}}
+  </div>
+</section>
+{{/layouts/base}}
