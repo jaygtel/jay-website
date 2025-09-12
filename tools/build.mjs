@@ -3,6 +3,7 @@
 // - Registers partials + layouts
 // - Compiles src/templates/index.hbs with data context
 // - Copies JS to dist/assets/js
+// - Writes .nojekyll for GitHub Pages
 
 import fs from 'fs';
 import path from 'path';
@@ -19,14 +20,16 @@ const DIST = path.join(__dirname, '..', 'dist');
 fs.mkdirSync(path.join(DIST, 'assets', 'css'), { recursive: true });
 fs.mkdirSync(path.join(DIST, 'assets', 'js'), { recursive: true });
 
-// Helpers (add more as needed)
+// Helpers
 Handlebars.registerHelper('year', () => new Date().getFullYear());
+// Optional "newline" helper; handy if a partial lacks a trailing newline.
 Handlebars.registerHelper('nl', () => '\n');
 
 // Load data
 const dataPath = path.join(SRC, 'data', 'site.json');
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-// Allow CI to override base path (e.g., "/jay-website")
+
+// Allow CI to override the base path for project pages, e.g. "/jays-website"
 const envBase = process.env.SITE_BASE || '';
 data.site = { ...data.site, base: envBase || data.site.base || '' };
 
@@ -55,7 +58,7 @@ if (fs.existsSync(layoutsDir)) {
   }
 }
 
-// Compile page(s)
+// Compile the page(s)
 // NOTE: "data: true" enables @root and data frames.
 const page = path.join(SRC, 'templates', 'index.hbs');
 const templateSrc = fs.readFileSync(page, 'utf8');
@@ -69,8 +72,9 @@ const srcJs = path.join(SRC, 'js', 'main.js');
 const outJs = path.join(DIST, 'assets', 'js', 'main.js');
 if (fs.existsSync(srcJs)) {
   fs.copyFileSync(srcJs, outJs);
-  // prevent Jekyll from interfering with static files on Pages
-  fs.writeFileSync(path.join(DIST, '.nojekyll'), '');
 }
+
+// Prevent Jekyll from interfering with static files on Pages
+fs.writeFileSync(path.join(DIST, '.nojekyll'), '');
 
 console.log('HTML built → dist/index.html');
