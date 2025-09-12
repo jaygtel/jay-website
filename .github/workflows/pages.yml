@@ -16,6 +16,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SITE_BASE: /jay-website   # <<— force project base for the build
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,9 +26,7 @@ jobs:
       - name: Install
         run: npm ci
       - name: Build
-        run: |
-          echo "SITE_BASE=/${{ github.event.repository.name }}" >> $GITHUB_ENV
-          npm run build
+        run: npm run build
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
