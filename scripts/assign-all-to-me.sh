@@ -86,7 +86,7 @@ else
 fi
 
 # de-duplicate and remove empties
-mapfile -t ISSUE_NUMS < <(grep -E '^[0-9]+$' "$ISSUES_TMP" | sort -u)
+IFS=$'\n' read -r -d '' -a ISSUE_NUMS < <(grep -E '^[0-9]+$' "$ISSUES_TMP" | sort -u; printf '\0')
 
 if [[ ${#ISSUE_NUMS[@]} -eq 0 ]]; then
   say "Nothing to assign — zero matching open issues."
