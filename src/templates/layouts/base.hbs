@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  {{> meta }}
+  <link rel="stylesheet" href="{{site.base}}/assets/css/main.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main id="main" tabindex="-1">
+    {{> @partial-block }}
+  </main>
+  <script type="module" src="{{site.base}}/assets/js/main.js"></script>
+</body>
+
+</html>

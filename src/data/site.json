@@ -1,0 +1,8 @@
+{
+  "site": {
+    "title": "Jay Website",
+    "description": "Hello pipeline.",
+    "canonical": "https://example.com",
+    "base": ""
+  }
+}
