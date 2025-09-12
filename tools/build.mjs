@@ -22,14 +22,14 @@ fs.mkdirSync(path.join(DIST, 'assets', 'js'), { recursive: true });
 
 // Helpers
 Handlebars.registerHelper('year', () => new Date().getFullYear());
-// Optional "newline" helper; handy if a partial lacks a trailing newline.
+// Optional newline helper; handy if a partial lacks a trailing newline.
 Handlebars.registerHelper('nl', () => '\n');
 
 // Load data
 const dataPath = path.join(SRC, 'data', 'site.json');
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 
-// Allow CI to override the base path for project pages, e.g. "/jays-website"
+// Allow CI to override the base path for project pages, e.g., "/jay-website"
 const envBase = process.env.SITE_BASE || '';
 data.site = { ...data.site, base: envBase || data.site.base || '' };
 
