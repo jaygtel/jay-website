@@ -1,8 +1,22 @@
 {
   "site": {
-    "title": "Jay Website",
+    "title": "Jays Website",
     "description": "Hello pipeline.",
     "canonical": "https://jaygtel.github.io",
-    "base": ""
+    "base": "/jay-website",
+    "nav": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "Projects",
+        "href": "/projects/"
+      },
+      {
+        "label": "Contact",
+        "href": "#contact"
+      }
+    ]
   }
 }
