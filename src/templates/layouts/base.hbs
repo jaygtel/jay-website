@@ -34,7 +34,7 @@
   </main>
 
   <footer class="site-footer">
-    <p>&copy; {{year}} {{site.title}}</p>
+    <p>&copy; {{year}} {{#if site.owner}}{{site.owner}}{{else}}{{site.title}}{{/if}}</p>
   </footer>
 
   <script type="module" src="{{site.base}}/assets/js/main.js"></script>

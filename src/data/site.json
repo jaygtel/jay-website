@@ -4,6 +4,7 @@
     "description": "Hello pipeline.",
     "canonical": "https://jaygtel.github.io",
     "base": "/jay-website",
+    "owner": "Jay Telford",
     "nav": [
       {
         "label": "Home",
