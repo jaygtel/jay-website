@@ -4,13 +4,16 @@
   "description": "Modern, accessible, mobile-first personal site.",
   "private": true,
   "scripts": {
-    "clean": "rm -rf dist && mkdir -p dist/assets/css dist/assets/img dist/assets/icons dist/assets/fonts",
+    "clean": "rm -rf dist && mkdir -p dist",
     "build:css": "sass src/scss/main.scss dist/assets/css/main.css --style=compressed --no-source-map",
     "postcss": "postcss dist/assets/css/main.css -o dist/assets/css/main.css",
+    "build:assets": "cp -R src/assets dist/assets",
+    "//": "HTML builds: CI uses build:html (no env-file), local uses build:html:local (reads .env.local)",
     "build:html": "node tools/build.mjs",
-    "build:assets": "cp -R src/assets/ dist/assets || true",
+    "build:html:local": "node --env-file=.env.local tools/build.mjs",
     "build": "npm run clean && npm run build:css && npm run build:html && npm run build:assets && npm run postcss",
-    "dev": "npm run build && npx live-server dist --quiet"
+    "build:local": "npm run clean && npm run build:css && npm run build:html:local && npm run build:assets && npm run postcss",
+    "dev": "npm run build:local && npx live-server dist --quiet"
   },
   "repository": {
     "type": "git",
