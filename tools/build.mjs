@@ -1,80 +1,137 @@
 // tools/build.mjs
-// Minimal Handlebars build for Jay Website (src -> dist)
-// - Registers partials + layouts
-// - Compiles src/templates/index.hbs with data context
-// - Copies JS to dist/assets/js
+// Builds HTML from Handlebars templates into /dist
+// - Registers partials from: src/templates/partials
+// - Registers sections from: src/templates/sections  ({{> sections/hero}})
+// - Registers layouts from:  src/templates/layouts   ({{#> layouts/base}} ... {{/layouts/base}})
+// - Compiles root-level templates in src/templates/*.hbs into dist/*.html
+// - Helpers: {{prefixBase href base}}, {{year}}
 // - Writes .nojekyll for GitHub Pages
 
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import fsp from 'node:fs/promises';
+import path from 'node:path';
 import Handlebars from 'handlebars';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const ROOT = process.cwd();
+const SRC = path.join(ROOT, 'src');
+const DIST = path.join(ROOT, 'dist');
 
-const SRC = path.join(__dirname, '..', 'src');
-const DIST = path.join(__dirname, '..', 'dist');
+const TEMPLATES_DIR = path.join(SRC, 'templates');
+const PARTIALS_DIR = path.join(TEMPLATES_DIR, 'partials');
+const SECTIONS_DIR = path.join(TEMPLATES_DIR, 'sections');
+const LAYOUTS_DIR = path.join(TEMPLATES_DIR, 'layouts');
+const DATA_DIR = path.join(SRC, 'data');
 
-// Ensure dist structure exists
-fs.mkdirSync(path.join(DIST, 'assets', 'css'), { recursive: true });
-fs.mkdirSync(path.join(DIST, 'assets', 'js'), { recursive: true });
+async function ensureDir(p) {
+  await fsp.mkdir(p, { recursive: true });
+}
 
-// Helpers
-Handlebars.registerHelper('year', () => new Date().getFullYear());
-// Optional newline helper; handy if a partial lacks a trailing newline.
-Handlebars.registerHelper('nl', () => '\n');
+async function writeFile(targetPath, content) {
+  await ensureDir(path.dirname(targetPath));
+  await fsp.writeFile(targetPath, content, 'utf8');
+}
 
-// Load data
-const dataPath = path.join(SRC, 'data', 'site.json');
-const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+function listHbsFilesSync(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir)
+    .map(name => path.join(dir, name))
+    .filter(p => fs.statSync(p).isFile() && p.endsWith('.hbs'));
+}
 
-// Allow CI to override the base path for project pages, e.g., "/jay-website"
-const envBase = process.env.SITE_BASE || '';
-data.site = { ...data.site, base: envBase || data.site.base || '' };
+function registerHelpers() {
+  // {{prefixBase href base}} → prefixes base for real paths but leaves #anchors and absolute URLs alone
+  Handlebars.registerHelper('prefixBase', (href, base) => {
+    if (!href) return '';
+    if (/^https?:\/\//i.test(href)) return href; // absolute URLs untouched
+    if (href.startsWith('#')) return href;       // in-page anchors untouched
+    const b = (base || '').replace(/\/$/, '');
+    const h = href.startsWith('/') ? href : `/${href}`;
+    return `${b}${h}`;
+  });
 
-// Register partials (src/templates/partials/*.hbs as {{> name}})
-const partialsDir = path.join(SRC, 'templates', 'partials');
-if (fs.existsSync(partialsDir)) {
-  for (const file of fs.readdirSync(partialsDir)) {
-    if (file.endsWith('.hbs')) {
-      const name = file.slice(0, -4); // 'meta.hbs' -> 'meta'
-      const content = fs.readFileSync(path.join(partialsDir, file), 'utf8');
-      Handlebars.registerPartial(name, content);
-    }
+  // {{year}} → current 4-digit year
+  Handlebars.registerHelper('year', () => new Date().getFullYear());
+}
+
+function registerPartialsDirectory(dir, namePrefix = '') {
+  if (!fs.existsSync(dir)) return;
+
+  for (const filePath of listHbsFilesSync(dir)) {
+    const raw = fs.readFileSync(filePath, 'utf8');
+    const base = path.basename(filePath, '.hbs');
+    const name = namePrefix ? `${namePrefix}/${base}` : base;
+    Handlebars.registerPartial(name, raw);
   }
 }
 
-// Register layouts as block partials under the "layouts/" namespace
-// Use in pages as: {{#> layouts/base this}} ... {{/layouts/base}}
-const layoutsDir = path.join(SRC, 'templates', 'layouts');
-if (fs.existsSync(layoutsDir)) {
-  for (const file of fs.readdirSync(layoutsDir)) {
-    if (file.endsWith('.hbs')) {
-      const name = `layouts/${file.slice(0, -4)}`; // 'base.hbs' -> 'layouts/base'
-      const content = fs.readFileSync(path.join(layoutsDir, file), 'utf8');
-      Handlebars.registerPartial(name, content);
-    }
+async function loadSiteData() {
+  const siteJsonPath = path.join(DATA_DIR, 'site.json');
+  const raw = fs.existsSync(siteJsonPath) ? await fsp.readFile(siteJsonPath, 'utf8') : '{}';
+  const parsed = JSON.parse(raw || '{}');
+
+  // Accept either { site: {…} } or a flat object
+  const data = parsed && typeof parsed === 'object' && 'site' in parsed
+    ? parsed
+    : { site: parsed || {} };
+
+  // Allow env override so local dev can use '' while Pages uses '/repo'
+  const envBase = process.env.SITE_BASE;
+  if (typeof envBase !== 'undefined') data.site.base = envBase;
+
+  // Normalize base (strip trailing slash unless empty)
+  if (typeof data.site.base === 'string' && data.site.base !== '') {
+    data.site.base = data.site.base.replace(/\/$/, '');
+  }
+
+  return data;
+}
+
+function listTopLevelTemplatePages() {
+  if (!fs.existsSync(TEMPLATES_DIR)) return [];
+  return fs.readdirSync(TEMPLATES_DIR)
+    .map(name => path.join(TEMPLATES_DIR, name))
+    .filter(p => fs.statSync(p).isFile() && p.endsWith('.hbs'));
+}
+
+async function compilePages(context) {
+  const pages = listTopLevelTemplatePages();
+  for (const tplPath of pages) {
+    const src = await fsp.readFile(tplPath, 'utf8');
+    const template = Handlebars.compile(src);
+    const html = template({ ...context, page: context.page || {} });
+
+    const filename = path.basename(tplPath, '.hbs') + '.html';
+    const outPath = path.join(DIST, filename);
+    await writeFile(outPath, html);
+    console.log(`✓ Built ${path.relative(ROOT, outPath)}`);
   }
 }
 
-// Compile the page(s)
-// NOTE: "data: true" enables @root and data frames.
-const page = path.join(SRC, 'templates', 'index.hbs');
-const templateSrc = fs.readFileSync(page, 'utf8');
-const template = Handlebars.compile(templateSrc, { noEscape: true, data: true });
-const html = template(data);
-
-fs.writeFileSync(path.join(DIST, 'index.html'), html, 'utf8');
-
-// Copy JS (CSS is built by separate npm script)
-const srcJs = path.join(SRC, 'js', 'main.js');
-const outJs = path.join(DIST, 'assets', 'js', 'main.js');
-if (fs.existsSync(srcJs)) {
-  fs.copyFileSync(srcJs, outJs);
+async function writeNoJekyll() {
+  await writeFile(path.join(DIST, '.nojekyll'), '');
 }
 
-// Prevent Jekyll from interfering with static files on Pages
-fs.writeFileSync(path.join(DIST, '.nojekyll'), '');
+async function main() {
+  try {
+    await ensureDir(DIST);
 
-console.log('HTML built → dist/index.html');
+    registerHelpers();
+
+    // Register reusable template parts
+    registerPartialsDirectory(PARTIALS_DIR);             // {{> header}}
+    registerPartialsDirectory(SECTIONS_DIR, 'sections'); // {{> sections/hero}}
+    registerPartialsDirectory(LAYOUTS_DIR, 'layouts');   // {{#> layouts/base}} ... {{/layouts/base}}
+
+    const data = await loadSiteData(); // { site: {...} }
+    await compilePages(data);
+
+    await writeNoJekyll();
+
+    console.log('Build complete.');
+  } catch (err) {
+    console.error('Build failed:', err);
+    process.exit(1);
+  }
+}
+
+await main();

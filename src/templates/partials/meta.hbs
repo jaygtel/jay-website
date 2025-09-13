@@ -1,5 +1,12 @@
-<title>{{site.title}}</title>
+{{!-- Minimal meta; we’ll expand with full SEO/OG later --}}
+<title>{{#if page.title}}{{page.title}} · {{/if}}{{site.title}}</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="{{site.description}}">
+
+{{!-- Prefer page description; fall back to site description --}}
+<meta name="description" content="{{#if page.description}}{{page.description}}{{else}}{{site.description}}{{/if}}">
+
+{{!-- Canonical should include the project base when deployed to Pages.
+SITE_BASE='' locally → https://example.github.io/
+SITE_BASE='/repo' on Pages → https://example.github.io/repo/ --}}
 <link rel="canonical" href="{{site.canonical}}{{site.base}}/">

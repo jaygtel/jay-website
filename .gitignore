@@ -1,3 +1,9 @@
-node_modules/
+# build output
 dist/
+
+# dependencies and editor junk
+node_modules/
 .DS_Store
+
+# local env (do NOT commit)
+.env.local

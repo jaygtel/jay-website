@@ -1,8 +1,7 @@
-{{#> layouts/base}}
-{{#with site}}
-<section class="stack">
-  <h1>{{title}}</h1>
-  <p>{{description}}</p>
-</section>
-{{/with}}
-{{/layouts/base}}
+{{!-- Example page using the base layout. Provides the single <h1> for the page. --}}
+  {{#> layouts/base }}
+  <section class="stack">
+    <h1>{{site.title}}</h1>
+    <p>Hello layout.</p>
+  </section>
+  {{/layouts/base}}

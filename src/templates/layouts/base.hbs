@@ -3,14 +3,40 @@
 
 <head>
   {{> meta }}
+
+  {{!-- Pages-safe asset paths (prefix with site.base) --}}
+  <link rel="preload" href="{{site.base}}/assets/css/main.css" as="style">
   <link rel="stylesheet" href="{{site.base}}/assets/css/main.css">
 </head>
 
 <body>
+  {{!-- Skip link: always an in-page anchor --}}
   <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <nav class="site-nav" aria-label="Primary">
+      {{!-- Home link: helper prefixes base in Pages, root locally --}}
+      <a class="site-logo" href="{{prefixBase '/' site.base}}">{{site.title}}</a>
+
+      {{#if site.nav}}
+      <ul>
+        {{#each site.nav}}
+        <li><a href="{{prefixBase this.href ../site.base}}">{{this.label}}</a></li>
+        {{/each}}
+      </ul>
+      {{/if}}
+    </nav>
+  </header>
+
+  {{!-- Main landmark (tabindex -1 for skip-link focus target) --}}
   <main id="main" tabindex="-1">
     {{> @partial-block }}
   </main>
+
+  <footer class="site-footer">
+    <p>&copy; {{year}} {{site.title}}</p>
+  </footer>
+
   <script type="module" src="{{site.base}}/assets/js/main.js"></script>
 </body>
 
