@@ -1,7 +1,19 @@
-{{!-- Example page using the base layout. Provides the single <h1> for the page. --}}
-  {{#> layouts/base }}
-  <section class="stack">
-    <h1>{{site.title}}</h1>
-    <p>Hello layout.</p>
-  </section>
-  {{/layouts/base}}
+{{!-- src/templates/index.hbs --}}
+{{#> layouts/base page=(hash title="Home" description="Hello pipeline." path="/")}}
+<section class="stack">
+  <h1>{{site.title}}</h1>
+  <p>{{site.description}}</p>
+</section>
+
+{{!-- Projects anchor so the nav "Projects" (#projects) has a target --}}
+<section id="projects" class="stack">
+  <h2>Projects</h2>
+  <p>Coming soon.</p>
+</section>
+
+{{!-- Contact anchor so the nav "Contact" (#contact) has a target --}}
+<section id="contact" class="stack">
+  <h2>Contact</h2>
+  <p>Drop a note via <a href="https://github.com/jaygtel">GitHub</a>.</p>
+</section>
+{{/layouts/base}}

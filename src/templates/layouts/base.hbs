@@ -1,40 +1,39 @@
+{{!-- src/templates/layouts/base.hbs --}}
 <!doctype html>
 <html lang="en">
 
 <head>
-  {{> meta }}
-
-  {{!-- Pages-safe asset paths (prefix with site.base) --}}
-  <link rel="preload" href="{{site.base}}/assets/css/main.css" as="style">
+  {{> meta}} {{!-- title, description, canonical from data/page --}}
   <link rel="stylesheet" href="{{site.base}}/assets/css/main.css">
 </head>
 
 <body>
-  {{!-- Skip link: always an in-page anchor --}}
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header" role="banner">
-    <nav class="site-nav" aria-label="Primary">
-      {{!-- Home link: helper prefixes base in Pages, root locally --}}
-      <a class="site-logo" href="{{prefixBase '/' site.base}}">{{site.title}}</a>
-
-      {{#if site.nav}}
+    <nav aria-label="Primary" class="site-nav">
+      <a class="site-logo" href="{{site.base}}/#main">{{site.title}}</a>
       <ul>
         {{#each site.nav}}
         <li><a href="{{prefixBase this.href ../site.base}}">{{this.label}}</a></li>
         {{/each}}
       </ul>
-      {{/if}}
     </nav>
   </header>
 
-  {{!-- Main landmark (tabindex -1 for skip-link focus target) --}}
   <main id="main" tabindex="-1">
-    {{> @partial-block }}
+    {{> @partial-block}} {{!-- ⟵ This yields the page content --}}
   </main>
 
   <footer class="site-footer">
-    <p>&copy; {{year}} {{#if site.owner}}{{site.owner}}{{else}}{{site.title}}{{/if}}</p>
+    <p>&copy; {{year}} {{site.footer.copyrightName}}</p>
+    {{#if site.footer.links}}
+    <ul class="footer-links">
+      {{#each site.footer.links}}
+      <li><a href="{{this.href}}">{{this.label}}</a></li>
+      {{/each}}
+    </ul>
+    {{/if}}
   </footer>
 
   <script type="module" src="{{site.base}}/assets/js/main.js"></script>
