@@ -12,12 +12,21 @@
       },
       {
         "label": "Projects",
-        "href": "/projects/"
+        "href": "#projects"
       },
       {
         "label": "Contact",
         "href": "#contact"
       }
-    ]
+    ],
+    "footer": {
+      "copyrightName": "Jay Telford",
+      "links": [
+        {
+          "href": "https://github.com/jaygtel",
+          "label": "GitHub"
+        }
+      ]
+    }
   }
 }
