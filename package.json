@@ -14,7 +14,9 @@
     "build:html:local": "node --env-file=.env.local tools/build.mjs",
     "build": "npm run clean && npm run build:css && npm run build:html && npm run build:assets && npm run postcss:prod",
     "build:local": "npm run clean && npm run build:css && npm run build:html:local && npm run build:assets && npm run postcss:dev",
-    "dev": "npm run build:local && npx live-server dist --quiet"
+    "dev": "npm run build:local && npx live-server dist --quiet",
+    "setup:hooks": "git config core.hooksPath .githooks && [ -d .githooks ] && chmod +x .githooks/* || true",
+    "postinstall": "npm run setup:hooks"
   },
   "repository": {
     "type": "git",
