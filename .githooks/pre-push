@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Block pushes that update the main branch
+# (pre-push receives lines: <local ref> <local sha> <remote ref> <remote sha>)
+protected="refs/heads/main"
+
+while read local_ref local_sha remote_ref remote_sha; do
+  if [[ "$remote_ref" == "$protected" ]]; then
+    echo "✋ Push blocked: direct updates to 'main' are not allowed."
+    echo "→ Push your branch and open a PR instead."
+    exit 1
+  fi
+done
+
+exit 0
