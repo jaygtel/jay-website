@@ -6,13 +6,14 @@
   "scripts": {
     "clean": "rm -rf dist && mkdir -p dist",
     "build:css": "sass src/scss/main.scss dist/assets/css/main.css --style=compressed --no-source-map",
-    "postcss": "postcss dist/assets/css/main.css -o dist/assets/css/main.css",
+    "postcss:dev": "postcss dist/assets/css/main.css -o dist/assets/css/main.css --map inline",
+    "postcss:prod": "postcss dist/assets/css/main.css -o dist/assets/css/main.css --no-map",
     "build:assets": "cp -R src/assets dist/assets",
     "//": "HTML builds: CI uses build:html (no env-file), local uses build:html:local (reads .env.local)",
     "build:html": "node tools/build.mjs",
     "build:html:local": "node --env-file=.env.local tools/build.mjs",
-    "build": "npm run clean && npm run build:css && npm run build:html && npm run build:assets && npm run postcss",
-    "build:local": "npm run clean && npm run build:css && npm run build:html:local && npm run build:assets && npm run postcss",
+    "build": "npm run clean && npm run build:css && npm run build:html && npm run build:assets && npm run postcss:prod",
+    "build:local": "npm run clean && npm run build:css && npm run build:html:local && npm run build:assets && npm run postcss:dev",
     "dev": "npm run build:local && npx live-server dist --quiet"
   },
   "repository": {
