@@ -1,6 +1,6 @@
 # Jay Website
 
-A modern, mobile-first, personal website built with semantic HTML and SCSS (7-1 architecture), ES module JavaScript, and Handlebars templates.  Accessible, lightweight, and deployed via GitHub Pages with a clear, repeatable build pipeline.
+A modern, mobile-first, personal website built with semantic HTML and SCSS (7-1 architecture), ES module JavaScript, and Handlebars templates. Accessible, lightweight, and deployed via GitHub Pages with a clear, repeatable build pipeline.
 
 **THIS PROJECT WAS RESET AND RESTARTED**
 
@@ -25,8 +25,8 @@ This project follows a simple but strict separation:
 ## 🚀 Getting Started
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v20 recommended).  
-- [GitHub CLI](https://cli.github.com/) if you want to use the automation scripts.  
+- [Node.js](https://nodejs.org/) (v20 recommended)  
+- [GitHub CLI](https://cli.github.com/) if you want to use the automation scripts
 
 ### Install
 ```bash
@@ -34,6 +34,8 @@ git clone https://github.com/<your-username>/jay-website.git
 cd jay-website
 npm install
 ````
+
+> Note: `npm install` auto-activates local Git hooks that prevent commits/pushes directly to `main`.
 
 ### Development
 
@@ -66,6 +68,7 @@ jay-website/
 ├── dist/            # Build output (ignored in git)
 ├── tools/           # Build scripts (e.g. build.mjs)
 ├── scripts/         # Local automation helpers (see below)
+├── .githooks/       # Repo-managed Git hooks (auto-enabled on install)
 ├── .github/         # Workflows, issue templates
 ├── package.json
 └── README.md
@@ -87,6 +90,31 @@ Checklist:
 * [x] CI/CD workflow configured
 * [x] `.nojekyll` added automatically in `dist/`
 * [x] Custom `404.html` for broken deep links
+
+---
+
+## 🔀 Branching & Release Model (Ephemeral)
+
+We’ve moved from a permanent `dev` branch to **short-lived release branches**.
+
+* **`main`** is the default and deployment branch (GitHub Pages).
+* **PR-only:** all changes land in `main` via Pull Requests (no direct pushes).
+* **Ephemeral branches:** create `release/<name>` from `main`, open a PR to `main`, merge, and let GitHub auto-delete the branch.
+* **Signed commits required** (PRs must show as “Verified”).
+* **Local safety:** repo-managed Git hooks in `.githooks/` block commits/pushes to `main`. They auto-activate on `npm install`.
+
+**Typical release flow**
+
+```bash
+git checkout main && git pull
+git switch -c release/<name>       # e.g., release/M1 or release/2025-09-14
+# ...make changes, commits...
+git push -u origin HEAD
+gh pr create --base main --head release/<name> \
+  --title "Release: <name>" \
+  --body "Short-lived release branch"
+gh pr merge --merge                 # merge commit; branch auto-deletes on merge
+```
 
 ---
 
@@ -114,8 +142,6 @@ DRY_RUN=1 ./scripts/setup-tracker.sh
 ./scripts/setup-tracker.sh
 ```
 
----
-
 ### `scripts/assign-all-to-me.sh`
 
 Assigns issues to yourself (`@me`).
@@ -139,9 +165,7 @@ Assigns issues to yourself (`@me`).
 DRY_RUN=1 ./scripts/assign-all-to-me.sh
 ```
 
----
-
-💡 These scripts are part of the workflow that makes this project repeatable and maintainable.
+> These scripts are part of the workflow that makes this project repeatable and maintainable.
 
 ---
 
@@ -149,7 +173,7 @@ DRY_RUN=1 ./scripts/assign-all-to-me.sh
 
 * **Readable code**: clear names, comments for intent, no cryptic tricks.
 * **Accessibility first**: focus states, ARIA live regions, labels.
-* **Progressive enhancement**: works without JS, JS adds niceties.
+* **Progressive enhancement**: works without JS; JS adds niceties.
 * **SCSS 7-1**: variables, mixins, utilities, mobile-first media queries.
 * **Handlebars**: logic in helpers, not content; partials for sections.
 
@@ -163,4 +187,4 @@ See GitHub [Milestones](https://github.com/jaygtel/jay-website/milestones) for t
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.  See the [LICENSE](LICENSE) file for the full text.
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for the full text.
