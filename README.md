@@ -37,6 +37,16 @@ npm install
 
 > Note: `npm install` auto-activates local Git hooks that prevent commits/pushes directly to `main`.
 
+### Local environment (`.env.local`)
+
+For local builds, create a `.env.local` file in the repo root:
+
+```ini
+# Controls the base path used by templates during local dev.
+# Leave empty for local development.
+SITE_BASE=
+```
+
 ### Development
 
 ```bash
