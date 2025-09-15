@@ -18,7 +18,13 @@ This project follows a simple but strict separation:
 - Semantic HTML5 landmarks and correct heading hierarchy.  
 - Mobile-first CSS with progressive enhancement for larger viewports.  
 - Centralised content in `src/data/site.json`.  
-- GitHub Actions for CI/CD (deploy to Pages on push to `main`).  
+- GitHub Actions for CI/CD (deploy to Pages on push to `main`).
+
+## ➕ Suggestions
+
+We welcome suggstions and ideas to help us plan out future development phases.  To make one visit our discussions category:
+
+[➕ Suggest an idea](https://github.com/jaygtel/jay-website/discussions/new?category=ideas)
 
 ---
 
