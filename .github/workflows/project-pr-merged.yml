@@ -18,12 +18,14 @@ jobs:
       GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
     steps:
       - name: Resolve project number by title
+        id: resolve
         run: |
           PN=$(gh project list --owner "$OWNER" --format json --jq '.[] | select(.title==env.PROJECT_TITLE) | .number')
           [ -z "$PN" ] && { echo "Project titled '$PROJECT_TITLE' not found for $OWNER"; exit 1; }
-          echo "PROJECT_NUMBER=$PN" >> $GITHUB_ENV
+          echo "project_number=$PN" >> "$GITHUB_OUTPUT"
 
       - name: Fetch project + Status/Done IDs
+        id: ids
         run: |
           gh api graphql -f query='
             query($login:String!, $number:Int!){
@@ -40,36 +42,40 @@ jobs:
                   }
                 }
               }
-            }' -f login="$OWNER" -F number="$PROJECT_NUMBER" > project.json
-          echo "PROJECT_ID=$(jq -r .data.user.projectV2.id project.json)" >> $GITHUB_ENV
-          echo "STATUS_FIELD_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name==\"Status\") | .id' project.json)" >> $GITHUB_ENV
-          echo "DONE_OPT_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name==\"Status\") | .options[] | select(.name==\"Done\") | .id' project.json)" >> $GITHUB_ENV
+            }' -f login="$OWNER" -F number="${{ steps.resolve.outputs.project_number }}" > project.json
 
-      - name: Ensure PR exists in project (capture item id if newly added)
+          echo "project_id=$(jq -r .data.user.projectV2.id project.json)" >> "$GITHUB_OUTPUT"
+          echo "status_field_id=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name==\"Status\") | .id' project.json)" >> "$GITHUB_OUTPUT"
+          echo "done_id=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name==\"Status\") | .options[] | select(.name==\"Done\") | .id' project.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Ensure PR exists in project & get item id
+        id: item
         run: |
           NEW_ID=$(gh api graphql -f query='
             mutation($project:ID!, $content:ID!){
               addProjectV2ItemById(input:{projectId:$project, contentId:$content}) {
                 item { id }
               }
-            }' -f project="$PROJECT_ID" -f content="$CONTENT_ID" --jq '.data.addProjectV2ItemById.item.id' || true)
-          [ -n "$NEW_ID" ] && echo "ITEM_ID=$NEW_ID" >> $GITHUB_ENV
+            }' -f project="${{ steps.ids.outputs.project_id }}" -f content="$CONTENT_ID" --jq '.data.addProjectV2ItemById.item.id' || true)
 
-      - name: Find project item id if not new
-        if: env.ITEM_ID == ''
-        run: |
-          gh api graphql -f query='
-            query($login:String!, $number:Int!){
-              user(login:$login){
-                projectV2(number:$number){
-                  items(first:200){
-                    nodes{ id content { ... on PullRequest { id } } }
+          if [ -n "$NEW_ID" ]; then
+            ITEM_ID="$NEW_ID"
+          else
+            ITEM_ID=$(gh api graphql -f query='
+              query($login:String!, $number:Int!){
+                user(login:$login){
+                  projectV2(number:$number){
+                    items(first:200){
+                      nodes{ id content { ... on PullRequest { id } } }
+                    }
                   }
                 }
-              }
-            }' -f login="$OWNER" -F number="$PROJECT_NUMBER" \
-            --jq ".data.user.projectV2.items.nodes[] | select(.content.id==\"$CONTENT_ID\") | .id" > item_id.txt
-          echo "ITEM_ID=$(cat item_id.txt)" >> $GITHUB_ENV
+              }' -f login="$OWNER" -F number="${{ steps.resolve.outputs.project_number }}" \
+              --jq ".data.user.projectV2.items.nodes[] | select(.content.id==\"$CONTENT_ID\") | .id")
+          fi
+
+          [ -n "$ITEM_ID" ] || { echo "Could not resolve item id"; exit 1; }
+          echo "item_id=$ITEM_ID" >> "$GITHUB_OUTPUT"
 
       - name: Set Status = Done
         run: |
@@ -78,4 +84,8 @@ jobs:
               updateProjectV2ItemFieldValue(
                 input:{projectId:$project, itemId:$item, fieldId:$field, value:{singleSelectOptionId:$opt}}
               ){ projectV2Item { id } }
-            }' -f project="$PROJECT_ID" -f item="$ITEM_ID" -f field="$STATUS_FIELD_ID" -f opt="$DONE_OPT_ID"
+            }' \
+            -f project="${{ steps.ids.outputs.project_id }}" \
+            -f item="${{ steps.item.outputs.item_id }}" \
+            -f field="${{ steps.ids.outputs.status_field_id }}" \
+            -f opt="${{ steps.ids.outputs.done_id }}"
