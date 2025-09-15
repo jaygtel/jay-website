@@ -195,9 +195,13 @@ DRY_RUN=1 ./scripts/assign-all-to-me.sh
 
 ---
 
-## 📌 Roadmap
+## Roadmap
 
-See GitHub [Milestones](https://github.com/jaygtel/jay-website/milestones) for the step-by-step breakdown (M0 → M12).
+See what we have planned for our future development phases:
+
+👉 **[View the Roadmap (GitHub Project)](https://github.com/users/jaygtel/projects/6)**
+
+[![Open Roadmap](https://img.shields.io/badge/Roadmap-Open%20Project-blue?logo=github)](https://github.com/users/jaygtel/projects/6)
 
 ---
 
