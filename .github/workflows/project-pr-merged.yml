@@ -12,18 +12,11 @@ jobs:
       contents: read
       pull-requests: read
     env:
-      OWNER: jaygtel
-      PROJECT_TITLE: "Jays Website"
+      OWNER: "jaygtel"
+      PROJECT_NUMBER: "6"
       CONTENT_ID: ${{ github.event.pull_request.node_id }}
       GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
     steps:
-      - name: Resolve project number by title
-        id: resolve
-        run: |
-          PN=$(gh project list --owner "$OWNER" --format json --jq '.[] | select(.title==env.PROJECT_TITLE) | .number')
-          [ -z "$PN" ] && { echo "Project titled '$PROJECT_TITLE' not found for $OWNER"; exit 1; }
-          echo "project_number=$PN" >> "$GITHUB_OUTPUT"
-
       - name: Fetch project + Status/Done IDs
         id: ids
         run: |
@@ -35,14 +28,15 @@ jobs:
                   fields(first:50){
                     nodes{
                       ... on ProjectV2SingleSelectField {
-                        id name
+                        id
+                        name
                         options { id name }
                       }
                     }
                   }
                 }
               }
-            }' -f login="$OWNER" -F number="${{ steps.resolve.outputs.project_number }}" > project.json
+            }' -f login="$OWNER" -F number="$PROJECT_NUMBER" > project.json
 
           echo "project_id=$(jq -r .data.user.projectV2.id project.json)" >> "$GITHUB_OUTPUT"
           echo "status_field_id=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name==\"Status\") | .id' project.json)" >> "$GITHUB_OUTPUT"
@@ -70,11 +64,11 @@ jobs:
                     }
                   }
                 }
-              }' -f login="$OWNER" -F number="${{ steps.resolve.outputs.project_number }}" \
+              }' -f login="$OWNER" -F number="$PROJECT_NUMBER" \
               --jq ".data.user.projectV2.items.nodes[] | select(.content.id==\"$CONTENT_ID\") | .id")
           fi
 
-          [ -n "$ITEM_ID" ] || { echo "Could not resolve item id"; exit 1; }
+          [ -z "$ITEM_ID" ] && { echo "Could not resolve item id"; exit 1; }
           echo "item_id=$ITEM_ID" >> "$GITHUB_OUTPUT"
 
       - name: Set Status = Done

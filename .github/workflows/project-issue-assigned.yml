@@ -11,18 +11,11 @@ jobs:
       contents: read
       issues: read
     env:
-      OWNER: jaygtel
-      PROJECT_TITLE: "Jays Website"
+      OWNER: "jaygtel"
+      PROJECT_NUMBER: "6"
       CONTENT_ID: ${{ github.event.issue.node_id }}
       GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}  # PAT classic with 'project' scope
     steps:
-      - name: Resolve project number by title
-        id: resolve
-        run: |
-          PN=$(gh project list --owner "$OWNER" --format json --jq '.[] | select(.title==env.PROJECT_TITLE) | .number')
-          [ -z "$PN" ] && { echo "Project titled '$PROJECT_TITLE' not found for $OWNER"; exit 1; }
-          echo "project_number=$PN" >> "$GITHUB_OUTPUT"
-
       - name: Fetch project + Status/To Do IDs
         id: ids
         run: |
@@ -34,14 +27,15 @@ jobs:
                   fields(first:50){
                     nodes{
                       ... on ProjectV2SingleSelectField {
-                        id name
+                        id
+                        name
                         options { id name }
                       }
                     }
                   }
                 }
               }
-            }' -f login="$OWNER" -F number="${{ steps.resolve.outputs.project_number }}" > project.json
+            }' -f login="$OWNER" -F number="$PROJECT_NUMBER" > project.json
 
           echo "project_id=$(jq -r .data.user.projectV2.id project.json)" >> "$GITHUB_OUTPUT"
           echo "status_field_id=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name==\"Status\") | .id' project.json)" >> "$GITHUB_OUTPUT"
@@ -50,7 +44,6 @@ jobs:
       - name: Ensure issue exists in project & get item id
         id: item
         run: |
-          # Try to add; capture new id if created
           NEW_ID=$(gh api graphql -f query='
             mutation($project:ID!, $content:ID!){
               addProjectV2ItemById(input:{projectId:$project, contentId:$content}) {
@@ -70,7 +63,7 @@ jobs:
                     }
                   }
                 }
-              }' -f login="$OWNER" -F number="${{ steps.resolve.outputs.project_number }}" \
+              }' -f login="$OWNER" -F number="$PROJECT_NUMBER" \
               --jq ".data.user.projectV2.items.nodes[] | select(.content.id==\"$CONTENT_ID\") | .id")
           fi
 
