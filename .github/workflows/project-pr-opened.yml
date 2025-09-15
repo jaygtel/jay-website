@@ -16,19 +16,21 @@ jobs:
       CONTENT_ID: ${{ github.event.pull_request.node_id }}
       GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
     steps:
-      - name: Fetch project + Status/In Progress IDs
-        id: ids
+      - name: Fetch project fields
+        id: get_fields
         run: |
+          set -euo pipefail
           gh api graphql -f query='
             query($login:String!, $number:Int!){
               user(login:$login){
                 projectV2(number:$number){
                   id
-                  fields(first:50){
+                  fields(first:100){
                     nodes{
+                      __typename
+                      ... on ProjectV2FieldCommon { id name }
                       ... on ProjectV2SingleSelectField {
-                        id
-                        name
+                        id name
                         options { id name }
                       }
                     }
@@ -38,20 +40,60 @@ jobs:
             }' -f login="$OWNER" -F number="$PROJECT_NUMBER" > project.json
 
           echo "project_id=$(jq -r .data.user.projectV2.id project.json)" >> "$GITHUB_OUTPUT"
-          echo "status_field_id=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name==\"Status\") | .id' project.json)" >> "$GITHUB_OUTPUT"
-          echo "inprog_id=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name==\"Status\") | .options[] | select(.name==\"In Progress\" or .name==\"In progress\") | .id' project.json)" >> "$GITHUB_OUTPUT"
+
+          echo "== Available fields ==" 
+          jq -r '
+            .data.user.projectV2.fields.nodes[]
+            | if .__typename=="ProjectV2SingleSelectField"
+                then "SINGLE_SELECT\t\(.name)\t\(.id)\t[" + ((.options // [] | map(.name) | join(", "))) + "]"
+                else "OTHER\t\(.name)\t\(.id)"
+              end
+          ' project.json
+
+          STATUS_FIELD_ID=$(jq -r '
+            .data.user.projectV2.fields.nodes[]
+            | select(.__typename=="ProjectV2SingleSelectField" and .name=="Status")
+            | .id
+          ' project.json | head -n1)
+          if [ -z "${STATUS_FIELD_ID:-}" ]; then
+            STATUS_FIELD_ID=$(jq -r '
+              [ .data.user.projectV2.fields.nodes[]
+                | select(.__typename=="ProjectV2SingleSelectField")
+                | {id, name, opts: [ (.options // [])[]?.name | ascii_downcase ] }
+              ]
+              | map(select(
+                  ((.opts | index("to do")) or (.opts | index("todo")) or (.opts | index("to-do")))
+                  and ((.opts | index("in progress")) or (.opts | index("in-progress")))
+                  and ((.opts | index("done")))
+                ))
+              | .[0].id // empty
+            ' project.json)
+          fi
+          [ -z "${STATUS_FIELD_ID:-}" ] && { echo "::error::Could not find Status field"; exit 1; }
+          echo "status_field_id=$STATUS_FIELD_ID" >> "$GITHUB_OUTPUT"
+
+          INPROG_ID=$(jq -r --arg FIELD "$STATUS_FIELD_ID" '
+            .data.user.projectV2.fields.nodes[]
+            | select(.id==$FIELD)
+            | (.options // [])[]
+            | select((.name | ascii_downcase)=="in progress" or (.name | ascii_downcase)=="in-progress")
+            | .id
+          ' project.json | head -n1)
+          [ -z "${INPROG_ID:-}" ] && { echo "::error::Could not find In Progress option on Status field."; exit 1; }
+          echo "inprog_id=$INPROG_ID" >> "$GITHUB_OUTPUT"
 
       - name: Ensure PR exists in project & get item id
         id: item
         run: |
+          set -euo pipefail
           NEW_ID=$(gh api graphql -f query='
             mutation($project:ID!, $content:ID!){
               addProjectV2ItemById(input:{projectId:$project, contentId:$content}) {
                 item { id }
               }
-            }' -f project="${{ steps.ids.outputs.project_id }}" -f content="$CONTENT_ID" --jq '.data.addProjectV2ItemById.item.id' || true)
+            }' -f project="${{ steps.get_fields.outputs.project_id }}" -f content="$CONTENT_ID" --jq '.data.addProjectV2ItemById.item.id' || true)
 
-          if [ -n "$NEW_ID" ]; then
+          if [ -n "${NEW_ID:-}" ]; then
             ITEM_ID="$NEW_ID"
           else
             ITEM_ID=$(gh api graphql -f query='
@@ -67,18 +109,22 @@ jobs:
               --jq ".data.user.projectV2.items.nodes[] | select(.content.id==\"$CONTENT_ID\") | .id")
           fi
 
-          [ -z "$ITEM_ID" ] && { echo "Could not resolve item id"; exit 1; }
+          if [ -z "${ITEM_ID:-}" ]; then
+            echo "::error::Could not resolve project item id for this PR."
+            exit 1
+          fi
           echo "item_id=$ITEM_ID" >> "$GITHUB_OUTPUT"
 
       - name: Set Status = In Progress
         run: |
+          set -euo pipefail
           gh api graphql -f query='
             mutation($project:ID!, $item:ID!, $field:ID!, $opt:String!){
               updateProjectV2ItemFieldValue(
                 input:{projectId:$project, itemId:$item, fieldId:$field, value:{singleSelectOptionId:$opt}}
               ){ projectV2Item { id } }
             }' \
-            -f project="${{ steps.ids.outputs.project_id }}" \
+            -f project="${{ steps.get_fields.outputs.project_id }}" \
             -f item="${{ steps.item.outputs.item_id }}" \
-            -f field="${{ steps.ids.outputs.status_field_id }}" \
-            -f opt="${{ steps.ids.outputs.inprog_id }}"
+            -f field="${{ steps.get_fields.outputs.status_field_id }}" \
+            -f opt="${{ steps.get_fields.outputs.inprog_id }}"
