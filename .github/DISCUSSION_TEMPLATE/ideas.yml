@@ -1,0 +1,40 @@
+title: "💡 Idea"
+labels:
+  - idea
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea! Tell us enough so we can evaluate it later.
+  - type: textarea
+    id: what
+    attributes:
+      label: What would you like to see?
+      placeholder: e.g. “Add a dark mode toggle in the header.”
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why is this useful?
+      description: Who benefits? What problem does it solve?
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Rough scope
+      options:
+        - Small (1–2 days)
+        - Medium (3–5 days)
+        - Large (1+ week)
+  - type: input
+    id: links
+    attributes:
+      label: Any links or screenshots?
+      placeholder: URLs (Figma, examples, screenshots)
+  - type: textarea
+    id: notes
+    attributes:
+      label: Extra notes
+      placeholder: Constraints, dependencies, related ideas
