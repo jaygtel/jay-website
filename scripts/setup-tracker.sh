@@ -38,7 +38,7 @@ get_repo() {
   fi
 
   if REPO_JSON="$(gh repo view --json owner,name 2>/dev/null)"; then
-    # gh supports --jq internally, but we'll keep it simple here
+    # gh supports --jq internally, but I'll keep it simple here
     owner="$(echo "$REPO_JSON" | sed -n 's/.*"login":"\([^"]*\)".*/\1/p' | head -n1 || true)"
     name="$(echo "$REPO_JSON" | sed -n 's/.*"name":"\([^"]*\)".*/\1/p' | head -n1 || true)"
     if [[ -n "$owner" && -n "$name" ]]; then

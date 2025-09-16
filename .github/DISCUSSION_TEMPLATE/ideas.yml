@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for the idea! Tell us enough so we can evaluate it later.
+        Thanks for the idea! Tell us enough so I can evaluate it later.
   - type: textarea
     id: what
     attributes:

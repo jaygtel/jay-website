@@ -22,7 +22,7 @@ This project follows a simple but strict separation:
 
 ## ➕ Suggestions
 
-We welcome suggstions and ideas to help us plan out future development phases.  To make one visit our discussions category:
+I welcome suggstions and ideas to help us plan out future development phases.  To make one visit our discussions category:
 
 [➕ Suggest an idea](https://github.com/jaygtel/jay-website/discussions/new?category=ideas)
 
@@ -111,7 +111,7 @@ Checklist:
 
 ## 🔀 Branching & Release Model (Ephemeral)
 
-We’ve moved from a permanent `dev` branch to **short-lived release branches**.
+I’ve moved from a permanent `dev` branch to **short-lived release branches**.
 
 * **`main`** is the default and deployment branch (GitHub Pages).
 * **PR-only:** all changes land in `main` via Pull Requests (no direct pushes).
@@ -197,7 +197,7 @@ DRY_RUN=1 ./scripts/assign-all-to-me.sh
 
 ## Roadmap
 
-See what we have planned for our future development phases:
+See what I have planned for our future development phases:
 
 👉 **[View the Roadmap (GitHub Project)](https://github.com/users/jaygtel/projects/6)**
 
