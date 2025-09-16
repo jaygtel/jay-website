@@ -1,15 +1,39 @@
 {{!-- src/templates/partials/meta.hbs --}}
-{{!-- Minimal meta; I’ll expand with full SEO/OG later --}}
-<meta charset="utf-8"> {{!-- keep first for faster encoding detection --}}
+
+{{!-- =========================
+Document basics
+========================= --}}
 <title>{{#if page.title}}{{page.title}} · {{/if}}{{site.title}}</title>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{{!-- Prefer page description; fall back to site description --}}
+{{!-- =========================
+SEO: description
+- Falls back to site.description
+========================= --}}
 <meta name="description" content="{{#if page.description}}{{page.description}}{{else}}{{site.description}}{{/if}}">
 
-{{!-- Canonical with Pages base + page path.
-Assumes:
-- site.canonical has NO trailing slash (e.g., https://jaygtel.github.io)
-- site.base is '' locally OR '/jay-website' on Pages
-- page.path starts and ends with '/', e.g. '/', '/projects/' --}}
-<link rel="canonical" href="{{site.canonical}}{{site.base}}{{#if page.path}}{{page.path}}{{else}}/{{/if}}">
+{{!-- =========================
+Canonical URL (Pages-safe)
+- Include base path for project sites
+========================= --}}
+<link rel="canonical" href="{{site.canonical}}{{site.base}}{{#if page.path}}{{page.path}}{{/if}}">
+
+{{!-- =========================
+Open Graph (Facebook/LinkedIn, etc.)
+- URL must match canonical
+- og:image uses prefixBase for project paths
+========================= --}}
+<meta property="og:title" content="{{#if page.title}}{{page.title}} · {{/if}}{{site.title}}">
+<meta property="og:description"
+  content="{{#if page.description}}{{page.description}}{{else}}{{site.description}}{{/if}}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{site.canonical}}{{site.base}}{{#if page.path}}{{page.path}}{{/if}}">
+<meta property="og:image" content="{{prefixBase site.ogImage site.base}}">
+
+{{!-- =========================
+Twitter
+========================= --}}
+<meta name="twitter:card" content="summary_large_image">
+{{#if site.twitter}}
+<meta name="twitter:site" content="{{site.twitter}}">{{/if}}

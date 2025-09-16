@@ -1,0 +1,21 @@
+{{!-- src/templates/partials/header.hbs --}}
+<header class="site-header" role="banner">
+  <nav class="site-nav" aria-label="Primary">
+    {{!-- Brand/home link should jump to #main, but include base for Pages --}}
+    <a class="site-logo" href="{{site.base}}/#main">{{site.title}}</a>
+
+    {{#if site.nav}}
+    <ul>
+      {{#each site.nav}}
+      {{#if this.href}}
+      <li>
+        <a href="{{prefixBase this.href ../site.base}}">
+          {{this.label}}
+        </a>
+      </li>
+      {{/if}}
+      {{/each}}
+    </ul>
+    {{/if}}
+  </nav>
+</header>

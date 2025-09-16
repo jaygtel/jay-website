@@ -1,0 +1,46 @@
+{{!-- src/templates/partials/footer.hbs --}}
+<footer class="site-footer" role="contentinfo">
+  {{!-- Secondary links from site.footer.links --}}
+  {{#if site.footer.links}}
+  <nav class="site-footer__nav" aria-label="Secondary">
+    <ul>
+      {{#each site.footer.links}}
+      {{#if this.href}}
+      <li>
+        <a href="{{prefixBase this.href ../site.base}}">
+          {{this.label}}
+        </a>
+      </li>
+      {{/if}}
+      {{/each}}
+    </ul>
+  </nav>
+  {{/if}}
+
+  {{!-- Optional socials if you add them later at site.author.social.* --}}
+  {{#if site.author}}
+  {{#if site.author.social}}
+  <ul class="site-footer__social">
+    {{#if site.author.social.github}}
+    <li><a href="{{site.author.social.github}}" rel="me noopener">GitHub</a></li>
+    {{/if}}
+    {{#if site.author.social.x}}
+    <li><a href="{{site.author.social.x}}" rel="me noopener">X</a></li>
+    {{/if}}
+    {{#if site.author.social.linkedin}}
+    <li><a href="{{site.author.social.linkedin}}" rel="me noopener">LinkedIn</a></li>
+    {{/if}}
+  </ul>
+  {{/if}}
+  {{/if}}
+
+  {{!-- Copyright: prefer explicit name, then owner, then site title --}}
+  <p class="site-footer__copy">
+    &copy; {{year}}
+    {{#if site.footer.copyrightName}}
+    {{site.footer.copyrightName}}
+    {{else}}
+    {{#if site.owner}}{{site.owner}}{{else}}{{site.title}}{{/if}}
+    {{/if}}
+  </p>
+</footer>

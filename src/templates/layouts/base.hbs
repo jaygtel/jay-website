@@ -10,31 +10,13 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header" role="banner">
-    <nav aria-label="Primary" class="site-nav">
-      <a class="site-logo" href="{{site.base}}/#main">{{site.title}}</a>
-      <ul>
-        {{#each site.nav}}
-        <li><a href="{{prefixBase this.href ../site.base}}">{{this.label}}</a></li>
-        {{/each}}
-      </ul>
-    </nav>
-  </header>
+  {{> header site=site}}
 
   <main id="main" tabindex="-1">
     {{> @partial-block}} {{!-- ⟵ This yields the page content --}}
   </main>
 
-  <footer class="site-footer">
-    <p>&copy; {{year}} {{site.footer.copyrightName}}</p>
-    {{#if site.footer.links}}
-    <ul class="footer-links">
-      {{#each site.footer.links}}
-      <li><a href="{{this.href}}">{{this.label}}</a></li>
-      {{/each}}
-    </ul>
-    {{/if}}
-  </footer>
+  {{> footer site=site}}
 
   <script type="module" src="{{site.base}}/assets/js/main.js"></script>
 </body>
