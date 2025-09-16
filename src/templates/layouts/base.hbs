@@ -10,16 +10,7 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header" role="banner">
-    <nav aria-label="Primary" class="site-nav">
-      <a class="site-logo" href="{{site.base}}/#main">{{site.title}}</a>
-      <ul>
-        {{#each site.nav}}
-        <li><a href="{{prefixBase this.href ../site.base}}">{{this.label}}</a></li>
-        {{/each}}
-      </ul>
-    </nav>
-  </header>
+  {{> header site=site}}
 
   <main id="main" tabindex="-1">
     {{> @partial-block}} {{!-- ⟵ This yields the page content --}}
