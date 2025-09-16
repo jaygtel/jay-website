@@ -16,16 +16,7 @@
     {{> @partial-block}} {{!-- ⟵ This yields the page content --}}
   </main>
 
-  <footer class="site-footer">
-    <p>&copy; {{year}} {{site.footer.copyrightName}}</p>
-    {{#if site.footer.links}}
-    <ul class="footer-links">
-      {{#each site.footer.links}}
-      <li><a href="{{this.href}}">{{this.label}}</a></li>
-      {{/each}}
-    </ul>
-    {{/if}}
-  </footer>
+  {{> footer site=site}}
 
   <script type="module" src="{{site.base}}/assets/js/main.js"></script>
 </body>

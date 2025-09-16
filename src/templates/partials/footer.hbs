@@ -1,0 +1,36 @@
+{{!-- src/templates/partials/footer.hbs --}}
+<footer class="site-footer" role="contentinfo">
+  {{!-- Secondary nav (Accessibility, Privacy, etc.) --}}
+  {{#if site.footer.nav}}
+  <nav class="site-footer__nav" aria-label="Secondary">
+    <ul>
+      {{#each site.footer.nav}}
+      {{#if this.href}}
+      <li>
+        <a href="{{prefixBase this.href ../site.base}}">
+          {{this.label}}
+        </a>
+      </li>
+      {{/if}}
+      {{/each}}
+    </ul>
+  </nav>
+  {{/if}}
+
+  {{!-- Social links (external; don’t prefix) --}}
+  {{#if site.author.social}}
+  <ul class="site-footer__social">
+    {{#if site.author.social.github}}
+    <li><a href="{{site.author.social.github}}" rel="me noopener">GitHub</a></li>
+    {{/if}}
+    {{#if site.author.social.x}}
+    <li><a href="{{site.author.social.x}}" rel="me noopener">X</a></li>
+    {{/if}}
+    {{#if site.author.social.linkedin}}
+    <li><a href="{{site.author.social.linkedin}}" rel="me noopener">LinkedIn</a></li>
+    {{/if}}
+  </ul>
+  {{/if}}
+
+  <p class="site-footer__copy">&copy; {{year}} {{site.title}}</p>
+</footer>
