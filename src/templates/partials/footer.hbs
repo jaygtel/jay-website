@@ -1,10 +1,10 @@
 {{!-- src/templates/partials/footer.hbs --}}
 <footer class="site-footer" role="contentinfo">
-  {{!-- Secondary nav (Accessibility, Privacy, etc.) --}}
-  {{#if site.footer.nav}}
+  {{!-- Secondary links from site.footer.links --}}
+  {{#if site.footer.links}}
   <nav class="site-footer__nav" aria-label="Secondary">
     <ul>
-      {{#each site.footer.nav}}
+      {{#each site.footer.links}}
       {{#if this.href}}
       <li>
         <a href="{{prefixBase this.href ../site.base}}">
@@ -17,7 +17,8 @@
   </nav>
   {{/if}}
 
-  {{!-- Social links (external; don’t prefix) --}}
+  {{!-- Optional socials if you add them later at site.author.social.* --}}
+  {{#if site.author}}
   {{#if site.author.social}}
   <ul class="site-footer__social">
     {{#if site.author.social.github}}
@@ -31,6 +32,15 @@
     {{/if}}
   </ul>
   {{/if}}
+  {{/if}}
 
-  <p class="site-footer__copy">&copy; {{year}} {{site.title}}</p>
+  {{!-- Copyright: prefer explicit name, then owner, then site title --}}
+  <p class="site-footer__copy">
+    &copy; {{year}}
+    {{#if site.footer.copyrightName}}
+    {{site.footer.copyrightName}}
+    {{else}}
+    {{#if site.owner}}{{site.owner}}{{else}}{{site.title}}{{/if}}
+    {{/if}}
+  </p>
 </footer>
