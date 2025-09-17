@@ -1,0 +1,6 @@
+/* abstracts/_variables.scss
+   Design tokens live here (colors, spacing, typography, breakpoints).
+   NOTE: Leave real values for Issue #8 (Design tokens).
+   Keep variables behind !default so downstream themes can override.
+*/
+$todo-token-example: null !default; // placeholder; will be removed in #8
