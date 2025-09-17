@@ -1,0 +1,20 @@
+/* base/_base.scss
+   Project-wide element styles (html, body, headings, images), defaults.
+   We’ll hook real styles after tokens exist (Issue #8).
+*/
+
+/* Example safe default (outputs minimal CSS, no tokens yet): */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

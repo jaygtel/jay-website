@@ -1,0 +1,16 @@
+/* utilities/_visually-hidden.scss
+   A standard “visually hidden but screen-reader accessible” helper.
+   MDN discussion: https://developer.mozilla.org/docs/Web/Accessibility/ARIA/Attributes/aria-hidden#hiding_content_visually
+*/
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
