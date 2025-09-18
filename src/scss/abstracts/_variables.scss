@@ -1,6 +1,209 @@
 /* abstracts/_variables.scss
-   Design tokens live here (colors, spacing, typography, breakpoints).
-   NOTE: Leave real values for Issue #8 (Design tokens).
-   Keep variables behind !default so downstream themes can override.
+   Design tokens: colors, spacing, typography, breakpoints, motion, focus.
+   - Tokens only; NO CSS output here.
+   - Keep values behind !default so themes/overrides can replace them.
+   - Colors selected to reach AA contrast in common pairings noted below.
+   - Mobile-first: breakpoints are min-width in rem units.
+
+   References:
+   - AA contrast targets guide our color choices (normal text ≥ 4.5:1).
+   - Breakpoints align with wireframe notes (0, 640px, 960px, 1280px).
 */
-$todo-token-example: null !default; // placeholder; will be removed in #8
+
+/* --------------------------------------------------------------------------------
+   COLOR PALETTE (foundations)
+-------------------------------------------------------------------------------- */
+
+$white: #ffffff !default;
+$black: #000000 !default;
+
+/* Neutral / Slate scale */
+$gray-50: #f8fafc !default;
+/* bg-subtle on white UIs */
+$gray-100: #f1f5f9 !default;
+$gray-200: #e2e8f0 !default;
+/* borders on light */
+$gray-700: #334155 !default;
+/* muted text on white (AA vs white) */
+$gray-900: #0f172a !default;
+/* primary body text on white (AA vs white) */
+
+/* Brand + accents */
+$brand-600: #2563eb !default;
+/* links on white (AA vs white) + brand surfaces with $on-brand */
+$brand-700: #1d4ed8 !default;
+/* hover/active, darker brand */
+
+$accent-600: #9333ea !default;
+/* optional secondary accent */
+
+/* Semantic hues chosen to meet AA when used as text on white,
+   and to permit white text on their solid backgrounds. */
+$success-700: #047857 !default;
+/* AA vs white; white-on-success also AA */
+$danger-600: #dc2626 !default;
+/* AA vs white; white-on-danger also AA */
+$warning-700: #b45309 !default;
+/* AA vs white; white-on-warning also AA */
+$info-700: #0369a1 !default;
+/* AA vs white; white-on-info also AA */
+
+/* --------------------------------------------------------------------------------
+   COLOR ROLES (use these across components)
+-------------------------------------------------------------------------------- */
+
+/* Light theme defaults */
+$color-bg: $white !default;
+/* page background */
+$color-surface: $white !default;
+/* card/panel background */
+$color-text: $gray-900 !default;
+/* primary text on $color-bg */
+$color-muted: $gray-700 !default;
+/* secondary text on $color-bg */
+$color-border: $gray-200 !default;
+/* dividers/borders */
+
+$color-brand: $brand-600 !default;
+$color-brand-strong: $brand-700 !default;
+$on-brand: $white !default;
+/* text/icon color placed on brand surfaces */
+
+$link-color: $color-brand !default;
+/* AA vs white bg */
+$link-color-hover: $color-brand-strong !default;
+/* darker on hover */
+
+/* Semantic role colors (as text on white) */
+$color-success: $success-700 !default;
+$color-danger: $danger-600 !default;
+$color-warning: $warning-700 !default;
+$color-info: $info-700 !default;
+
+/* Text on solid semantic backgrounds */
+$on-success: $white !default;
+$on-danger: $white !default;
+$on-warning: $white !default;
+$on-info: $white !default;
+
+/* --------------------------------------------------------------------------------
+   TYPOGRAPHY
+-------------------------------------------------------------------------------- */
+
+/* Font stacks (system-first; swap to custom fonts later if added in /assets/fonts) */
+$font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+   "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !default;
+
+$font-serif: Georgia, Cambria, "Times New Roman", Times, serif !default;
+
+$font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+   "Liberation Mono", "Courier New", monospace !default;
+
+/* Base metrics */
+$font-size-root: 100% !default;
+/* 16px by default; set on html later in base */
+$line-tight: 1.25 !default;
+$line-normal: 1.5 !default;
+$line-loose: 1.7 !default;
+
+$weight-regular: 400 !default;
+$weight-medium: 500 !default;
+$weight-semibold: 600 !default;
+$weight-bold: 700 !default;
+
+/* Type scale (for fluid sizing in mixins later).
+   Each step provides a min/max that a fluid-type mixin can clamp() between
+   across a viewport range (see $fluid-min-vw / $fluid-max-vw below). */
+$type-scale: (
+   -2: (min: 0.75rem, max: 0.875rem),
+   /* captions, helper text */
+   -1: (min: 0.875rem, max: 1rem),
+   /* small text */
+   0: (min: 1rem, max: 1.125rem),
+   /* body */
+   1: (min: 1.125rem, max: 1.25rem),
+   /* lead / h6 */
+   2: (min: 1.25rem, max: 1.5rem),
+   /* h5 */
+   3: (min: 1.5rem, max: 1.875rem),
+   /* h4 */
+   4: (min: 1.875rem, max: 2.25rem),
+   /* h3 */
+   5: (min: 2.25rem, max: 3rem)
+   /* h2/h1 */
+   ) !default;
+
+/* --------------------------------------------------------------------------------
+   SPACING (4pt system, expressed in rem)
+-------------------------------------------------------------------------------- */
+
+$space-3xs: 0.125rem !default;
+/* 2px  */
+$space-2xs: 0.25rem !default;
+/* 4px  */
+$space-xs: 0.5rem !default;
+/* 8px  */
+$space-sm: 0.75rem !default;
+/* 12px */
+$space-md: 1rem !default;
+/* 16px */
+$space-lg: 1.5rem !default;
+/* 24px */
+$space-xl: 2rem !default;
+/* 32px */
+$space-2xl: 3rem !default;
+/* 48px */
+$space-3xl: 4rem !default;
+/* 64px */
+$space-4xl: 6rem !default;
+/* 96px */
+
+/* Map form for future helpers/mixins (no output here) */
+$space: (
+   3xs: $space-3xs,
+   2xs: $space-2xs,
+   xs: $space-xs,
+   sm: $space-sm,
+   md: $space-md,
+   lg: $space-lg,
+   xl: $space-xl,
+   2xl: $space-2xl,
+   3xl: $space-3xl,
+   4xl: $space-4xl) !default;
+
+/* --------------------------------------------------------------------------------
+   LAYOUT / BREAKPOINTS (mobile-first, min-width in rem)
+-------------------------------------------------------------------------------- */
+
+$container-max: 72rem !default;
+/* ~1152px; wireframe suggests ~72rem containers */
+
+$breakpoints: (
+   sm: 40rem,
+   /* 640px */
+   md: 60rem,
+   /* 960px */
+   lg: 80rem
+   /* 1280px */
+   ) !default;
+
+/* Fluid type viewport range (used by mixins in the next step) */
+$fluid-min-vw: 20rem !default;
+/* 320px */
+$fluid-max-vw: 80rem !default;
+/* 1280px */
+
+/* --------------------------------------------------------------------------------
+   FOCUS & MOTION TOKENS (consumed by utilities in later issues)
+-------------------------------------------------------------------------------- */
+
+$focus-outline-width: 3px !default;
+/* wireframe: 2–3px visible focus */
+$focus-outline-offset: 3px !default;
+$focus-ring-color: currentColor !default;
+/* non-color-only cues come later */
+
+$motion-duration-1: 150ms !default;
+$motion-duration-2: 250ms !default;
+$motion-ease-standard: cubic-bezier(.2, .8, .2, 1) !default;
+/* prefers-reduced-motion handling will be added in utilities and mixins later */
