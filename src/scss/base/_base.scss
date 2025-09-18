@@ -1,9 +1,17 @@
 /* base/_base.scss
-   Project-wide element styles (html, body, headings, images), defaults.
-   We’ll hook real styles after tokens exist (Issue #8).
-*/
+   Minimal, accessible defaults to prove tokens + mixins are wired.
+   (Full component/page styling comes later.)
 
-/* Example safe default (outputs minimal CSS, no tokens yet): */
+   Uses:
+   - variables (tokens: colors, fonts, spacing)
+   - mixins.fluid-type for headings
+*/
+@use "../abstracts/variables" as v;
+@use "../abstracts/mixins" as m;
+@use "../abstracts/functions" as f;
+
+/* Global box model & image handling already present in your reset/base earlier;
+   we keep them here to ensure sensible defaults. */
 *,
 *::before,
 *::after {
@@ -14,7 +22,53 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Base document */
+html {
+  font-size: v.$font-size-root;
+}
+
+/* usually 16px → 100% */
+body {
+  margin: 0;
+  font-family: v.$font-sans;
+  color: v.$color-text;
+  background-color: v.$color-bg;
+  line-height: v.$line-normal;
+  /* MDN font-family: https://developer.mozilla.org/en-US/docs/Web/CSS/font-family */
+}
+
+/* Links */
+a {
+  color: v.$link-color;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: v.$link-color-hover;
+}
+
+/* Fluid headings (tiny sample to demonstrate tokens working) */
+h1 {
+  @include m.fluid-type(5, v.$line-tight, v.$weight-bold);
+}
+
+h2 {
+  @include m.fluid-type(4, v.$line-tight, v.$weight-semibold);
+}
+
+h3 {
+  @include m.fluid-type(3, v.$line-tight, v.$weight-semibold);
+}
+
+/* Images remain responsive; keep intrinsic aspect to avoid CLS (see brief). */
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* MDN: https://developer.mozilla.org/en-US/docs/Web/CSS/max-width */
+
+/* Basic flow rhythm for text (kept subtle) */
+p {
+  margin-block: 0 f.space(md);
 }
