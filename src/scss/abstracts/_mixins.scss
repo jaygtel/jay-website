@@ -1,0 +1,62 @@
+/* abstracts/_mixins.scss
+   Reusable mixins. These DO NOT emit CSS by themselves; they’re used by other layers.
+
+   Included:
+   - mq($from)                     → @media (min-width: …) wrapper (mobile-first)
+   - fluid-type($step, $lh?, $w?)  → font-size: clamp(min, calc(...), max) from type scale
+   - prefers-reduced-motion        → wrap motion-heavy rules for users who prefer less motion
+   - focus-ring(...)               → consistent visible focus outline using tokens
+*/
+@use "sass:math";
+@use "variables" as v;
+@use "functions" as f;
+
+/* Mobile-first media query helper */
+@mixin mq($from) {
+   @media (min-width: f.bp($from)) {
+      @content;
+   }
+}
+
+/* Fluid type from $type-scale at a named step.
+   Example: @include fluid-type(3, v.$line-tight, v.$weight-semibold);
+   MDN clamp(): https://developer.mozilla.org/en-US/docs/Web/CSS/clamp
+*/
+@mixin fluid-type($step, $line-height: null, $weight: null) {
+   $min: f.type-step($step, min);
+   $max: f.type-step($step, max);
+
+   /* Build a linear scaling between $fluid-min-vw and $fluid-max-vw */
+   $vw-range: v.$fluid-max-vw - v.$fluid-min-vw;
+   $size-diff: $max - $min;
+
+   font-size: clamp(#{$min},
+      calc(#{$min} + #{$size-diff} * ((100vw - #{v.$fluid-min-vw}) / #{$vw-range})),
+      #{$max});
+
+   @if $line-height !=null {
+      line-height: $line-height;
+   }
+
+   @if $weight !=null {
+      font-weight: $weight;
+   }
+}
+
+/* Respect users who prefer reduced motion (utilities will use this later) */
+@mixin prefers-reduced-motion {
+   @media (prefers-reduced-motion: reduce) {
+      @content;
+   }
+
+   /* MDN: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion */
+}
+
+/* Visible focus ring (Issue #9 will add utilities; this mixin is ready now) */
+@mixin focus-ring($color: v.$focus-ring-color,
+   $width: v.$focus-outline-width,
+   $offset: v.$focus-outline-offset) {
+   outline: $width solid $color;
+   outline-offset: $offset;
+   /* MDN outline/offset: https://developer.mozilla.org/en-US/docs/Web/CSS/outline */
+}

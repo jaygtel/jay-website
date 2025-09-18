@@ -1,0 +1,28 @@
+/* utilities/_motion.scss
+   Respect users who prefer reduced motion.
+   - Globally minimizes animation/transition durations when the user opts out.
+   - You can still author animations in components; users with "reduce" won’t get them.
+   Reference:
+   - prefers-reduced-motion: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+*/
+@use "../abstracts/mixins" as m;
+
+/* Global guard: drastically reduce motion for users who selected "reduce" */
+@include m.prefers-reduced-motion {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optional helper class: only run motion when user has no preference.
+   Usage example in a component:
+     @media (prefers-reduced-motion: no-preference) {
+       .fade-in { transition: opacity 150ms; }
+     }
+   (We expose this pattern here as a comment, to keep utilities minimal.) */

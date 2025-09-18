@@ -1,42 +1,41 @@
-/* Minimal AA-friendly baseline; mobile-first */
-:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
-}
+/* src/scss/main.scss
+   Entry point for the 7–1 architecture.
+   Load order matters:
+   1) abstracts   – tokens, functions, mixins (no CSS output ideally)
+   2) base        – resets and element defaults
+   3) layout      – structural layout primitives (containers, grid)
+   4) components  – discrete UI chunks (buttons, cards, nav)
+   5) sections    – page/section-specific styles
+   6) utilities   – helpers and one-off utility classes
 
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: .001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .001ms !important;
-  }
-}
+   Notes:
+   - Tokens were added in Issue #8.
+   - Focus + reduced-motion utilities are Issue #9 (this step).
+*/
 
-:root {
-  --space: 0.75rem;
-}
+/* 1) ABSTRACTS (no CSS output expected) */
+@use "abstracts/functions";
+@use "abstracts/mixins";
+@use "abstracts/variables";
 
-body {
-  font-family: system-ui, sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 2rem;
-}
+/* 2) BASE (global element defaults / light reset) */
+@use "base/reset";
+@use "base/base";
 
-.stack>*+* {
-  margin-top: var(--space);
-}
+/* 3) LAYOUT (page structure, containers, grids) */
+@use "layout/grid";
+@use "layout/layout";
 
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: auto;
-}
+/* 4) COMPONENTS (reusable UI) */
+@use "components/buttons";
+@use "components/cards";
+@use "components/nav";
 
-.skip-link:focus {
-  left: 1rem;
-  top: 1rem;
-  background: #fff;
-  padding: .5rem .75rem;
-  border: 1px solid;
-}
+/* 5) SECTIONS (page-level rules) */
+@use "sections/home";
+
+/* 6) UTILITIES (helpers & a11y utilities) */
+@use "utilities/visually-hidden";
+@use "utilities/helpers";
+@use "utilities/focus";
+@use "utilities/motion";
