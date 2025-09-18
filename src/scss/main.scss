@@ -9,12 +9,11 @@
    6) utilities   – helpers and one-off utility classes
 
    Notes:
-   - Real tokens (colors/spacing/type/breakpoints) arrive in Issue #8.
-   - Focus + reduced-motion utilities arrive in Issue #9.
-   - Using Sass modules (@use) keeps things tidy and avoids @import (deprecated).
+   - Tokens were added in Issue #8.
+   - Focus + reduced-motion utilities are Issue #9 (this step).
 */
 
-/* 1) ABSTRACTS (no CSS output expected yet) */
+/* 1) ABSTRACTS (no CSS output expected) */
 @use "abstracts/functions";
 @use "abstracts/mixins";
 @use "abstracts/variables";
@@ -38,3 +37,5 @@
 /* 6) UTILITIES (helpers & a11y utilities) */
 @use "utilities/visually-hidden";
 @use "utilities/helpers";
+@use "utilities/focus";
+@use "utilities/motion";

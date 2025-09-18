@@ -1,0 +1,27 @@
+/* utilities/_focus.scss
+   Visible, consistent focus styles using tokens + mixin.
+   - Applies a strong outline to any element when it matches :focus-visible
+   - Adds a non-colour-only cue for links (thicker underline) to aid contrast
+   References:
+   - :focus-visible: https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible
+*/
+@use "../abstracts/variables" as v;
+@use "../abstracts/mixins" as m;
+
+/* Global focus ring — keyboard users see this, mouse users typically won’t */
+:focus-visible {
+  @include m.focus-ring(v.$focus-ring-color, v.$focus-outline-width, v.$focus-outline-offset);
+}
+
+/* Extra affordance for links: reinforce with an underline change, not just color */
+a:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 0.14em;
+  /* ~2px at common sizes */
+  text-underline-offset: 0.15em;
+}
+
+/* Opt-in utility if you need to force a focus ring on custom components */
+.u-focus-ring {
+  @include m.focus-ring(v.$focus-ring-color, v.$focus-outline-width, v.$focus-outline-offset);
+}

@@ -1,3 +1,42 @@
 /* abstracts/_functions.scss
-   Sass functions (e.g., color contrast helpers) — to be added in Issue #8.
+   Small helpers to read token maps safely (no CSS output).
+   - space($key)          → spacing scale lookup
+   - type-step($step, k)  → "min" or "max" size for a type scale step
+   - bp($name)            → breakpoint value (min-width)
 */
+@use "sass:map";
+@use "sass:meta";
+@use "variables" as v;
+
+/* Spacing lookup: e.g., space(sm) → 0.75rem */
+@function space($key) {
+   @if (map.has-key(v.$space, $key)) {
+      @return map.get(v.$space, $key);
+   }
+
+   @error "Unknown spacing key `#{$key}`. Valid: #{map.keys(v.$space)}";
+}
+
+/* Type scale step lookup: type-step(3, min|max) */
+@function type-step($step, $which: min) {
+   @if (map.has-key(v.$type-scale, $step)) {
+      $pair: map.get(v.$type-scale, $step);
+
+      @if (map.has-key($pair, $which)) {
+         @return map.get($pair, $which);
+      }
+
+      @error "type-step(#{inspect($step)}, #{inspect($which)}): use `min` or `max`.";
+   }
+
+   @error "Unknown type step `#{$step}`. Valid: #{map.keys(v.$type-scale)}";
+}
+
+/* Breakpoint lookup: bp(sm|md|lg) returns rem value */
+@function bp($name) {
+   @if (map.has-key(v.$breakpoints, $name)) {
+      @return map.get(v.$breakpoints, $name);
+   }
+
+   @error "Unknown breakpoint `#{$name}`. Valid: #{map.keys(v.$breakpoints)}";
+}
