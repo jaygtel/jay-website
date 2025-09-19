@@ -1,0 +1,48 @@
+/* sections/_about.scss
+   About page styles (mobile-first, no motion).
+   - Comfortable vertical spacing
+   - Readable measure for bio paragraphs
+   - Portrait scales down fluidly while honoring intrinsic dimensions
+*/
+
+.about {
+  padding-block: 1.5rem;
+  /* top/bottom */
+}
+
+.about p {
+  max-width: 65ch;
+  /* readable line length */
+  margin: 0;
+  /* let container spacing control rhythm */
+}
+
+.about__figure {
+  margin: 0 0 1rem 0;
+  /* space below image on small screens */
+  max-width: 16rem;
+  /* keep portraits modest on mobile */
+}
+
+.about__figure img {
+  display: block;
+  max-width: 100%;
+  /* fluid downscale, never overflow */
+  height: auto;
+  /* preserve aspect ratio (honors width/height attrs) */
+  border-radius: 0.5rem;
+}
+
+/* Slightly roomier on wider screens, no layout shifts */
+@media (min-width: 48rem) {
+
+  /* ~768px */
+  .about {
+    padding-block: 2rem;
+  }
+
+  .about__figure {
+    margin-bottom: 1.25rem;
+    max-width: 20rem;
+  }
+}

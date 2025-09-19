@@ -33,6 +33,8 @@
 
 /* 5) SECTIONS (page-level rules) */
 @use "sections/home";
+@use "sections/about";
+@use "sections/projects";
 
 /* 6) UTILITIES (helpers & a11y utilities) */
 @use "utilities/visually-hidden";

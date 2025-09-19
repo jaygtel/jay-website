@@ -1,0 +1,27 @@
+{{!-- src/templates/about.hbs --}}
+{{!-- About page: single H1, optional portrait, bio paragraphs --}}
+{{#> layouts/base page=(hash title="About" description=site.description path="/about.html")}}
+<section class="about stack" aria-labelledby="about-title">
+  <h1 id="about-title">About</h1>
+
+  {{!-- Optional portrait with explicit dimensions to avoid CLS --}}
+  {{#if site.about}}
+  {{#if site.about.portrait.src}}
+  <figure class="about__figure">
+    <img src="{{prefixBase site.about.portrait.src site.base}}" width="{{site.about.portrait.width}}"
+      height="{{site.about.portrait.height}}" alt="{{site.about.portrait.alt}}">
+  </figure>
+  {{/if}}
+
+  {{#if site.about.bio}}
+  {{#each site.about.bio}}
+  <p>{{this}}</p>
+  {{/each}}
+  {{else}}
+  <p>Bio coming soon.</p>
+  {{/if}}
+  {{else}}
+  <p>Bio coming soon.</p>
+  {{/if}}
+</section>
+{{/layouts/base}}
