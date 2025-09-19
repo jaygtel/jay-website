@@ -1,0 +1,15 @@
+/* sections/_projects.scss
+   Projects index page styles (mobile-first).
+   Reuses .cards / .card from components.
+*/
+
+.projects {
+  padding-block: 1.5rem;
+}
+
+/* Optional: give the list a touch more breathing room on larger screens */
+@media (min-width: 48rem) {
+  .projects {
+    padding-block: 2rem;
+  }
+}

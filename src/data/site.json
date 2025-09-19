@@ -12,7 +12,11 @@
       },
       {
         "label": "Projects",
-        "href": "#projects"
+        "href": "/projects.html"
+      },
+      {
+        "label": "About",
+        "href": "/about.html"
       },
       {
         "label": "Contact",
@@ -31,6 +35,19 @@
           "label": "X"
         }
       ]
-    }
+    },
+    "about": {
+      "bio": [
+        "I'm a hands-on designer-developer focused on accessible, mobile-first web experiences.",
+        "This site is being built in the open: lightweight templates, SCSS in a 7-1 architecture, and CI/CD via GitHub Pages."
+      ],
+      "portrait": {
+        "src": "",
+        "alt": "Portrait of Jay Telford",
+        "width": 0,
+        "height": 0
+      }
+    },
+    "projects": []
   }
 }
