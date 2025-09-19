@@ -1,0 +1,33 @@
+{{!-- src/templates/projects.hbs --}}
+{{!-- Projects index: single H1, list of cards if data exists --}}
+{{#> layouts/base page=(hash title="Projects" description=site.description path="/projects.html")}}
+<section class="projects stack" aria-labelledby="projects-title">
+  <h1 id="projects-title">Projects</h1>
+
+  {{#if site.projects}}
+  {{#if site.projects.length}}
+  <ul class="cards">
+    {{#each site.projects}}
+    <li class="card">
+      {{#if this.url}}
+      <a class="card__link" href="{{prefixBase this.url ../../site.base}}">
+        <h2 class="card__title">{{this.title}}</h2>
+        {{#if this.summary}}<p class="card__summary">{{this.summary}}</p>{{/if}}
+      </a>
+      {{else}}
+      <div class="card__body">
+        <h2 class="card__title">{{this.title}}</h2>
+        {{#if this.summary}}<p class="card__summary">{{this.summary}}</p>{{/if}}
+      </div>
+      {{/if}}
+    </li>
+    {{/each}}
+  </ul>
+  {{else}}
+  <p>No projects yet.</p>
+  {{/if}}
+  {{else}}
+  <p>No projects yet.</p>
+  {{/if}}
+</section>
+{{/layouts/base}}
