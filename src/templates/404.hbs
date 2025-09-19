@@ -1,0 +1,20 @@
+{{!-- src/templates/404.hbs --}}
+{{!-- Custom 404 page
+- Compiles to dist/404.html (build.mjs compiles all root templates)
+- Links use {{prefixBase}} so it works on GitHub Pages project sites
+--}}
+{{#> layouts/base page=(hash title="Page not found" description="We couldn't find that page." path="/404.html")}}
+
+<section class="not-found stack" aria-labelledby="nf-title">
+  <h1 id="nf-title">Page not found</h1>
+  <p>Sorry, we can't find the page you're looking for. Try one of these:</p>
+
+  <ul class="stack" style="--stack-space:0.5rem;">
+    <li><a href="{{prefixBase '/' site.base}}">Home</a></li>
+    <li><a href="{{prefixBase '/projects.html' site.base}}">Projects</a></li>
+    <li><a href="{{prefixBase '/about.html' site.base}}">About</a></li>
+    <li><a href="{{prefixBase '#contact' site.base}}">Contact</a></li>
+  </ul>
+</section>
+
+{{/layouts/base}}
