@@ -1,4 +1,71 @@
 /* components/_cards.scss
-   Card container, header, body, media ratio helpers for project cards.
-   Real styles to come later; scaffold only.
+   Project cards list and card styling (mobile-first).
+   Accessible focus styles; no forced motion.
+   MDN grid: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
 */
+
+.cards {
+   display: grid;
+   gap: 1rem;
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   grid-template-columns: 1fr;
+   /* mobile-first single column */
+}
+
+.card {
+   background: #ffffff;
+   border: 1px solid #e5e7eb;
+   /* light gray */
+   border-radius: 0.5rem;
+   padding: 1rem;
+}
+
+.card__link {
+   display: block;
+   text-decoration: none;
+   color: inherit;
+}
+
+.card__title {
+   margin: 0 0 0.25rem 0;
+   font-size: 1.125rem;
+   /* ~18px */
+   line-height: 1.2;
+}
+
+.card__summary {
+   margin: 0;
+   color: #333;
+   /* good contrast on white */
+}
+
+/* Focus visibility for keyboard users (AA-friendly) */
+.card:focus-within,
+.card__link:focus-visible {
+   outline: 2px solid currentColor;
+   outline-offset: 3px;
+}
+
+/* Optional affordance */
+.card__link:hover {
+   text-decoration: underline;
+}
+
+/* Progressive enhancement for wider viewports */
+@media (min-width: 40rem) {
+
+   /* ~640px */
+   .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+   }
+}
+
+@media (min-width: 64rem) {
+
+   /* ~1024px */
+   .cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+   }
+}

@@ -1,4 +1,20 @@
 /* utilities/_helpers.scss
-   Small single-purpose helpers (e.g., .stack, .flow, text utilities).
-   Will be filled as needed later.
+   Small, single-purpose helpers.
+   - .stack: vertical rhythm utility (mobile-first)
+   - Future: add tiny alignment/text helpers if/when needed.
 */
+
+/* Vertical spacing between siblings
+   Usage: add `class="stack"` to a container. Optionally tune spacing via:
+   .stack { --stack-space: 1.25rem; }
+   MDN custom properties: https://developer.mozilla.org/en-US/docs/Web/CSS/--*
+*/
+.stack {
+   --stack-space: 1rem;
+   /* default gap */
+   display: block;
+}
+
+.stack>*+* {
+   margin-top: var(--stack-space);
+}

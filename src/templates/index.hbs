@@ -1,19 +1,71 @@
-{{!-- src/templates/index.hbs --}}
-{{#> layouts/base page=(hash title="Home" description="Hello pipeline." path="/")}}
-<section class="stack">
-  <h1>{{site.title}}</h1>
-  <p>{{site.description}}</p>
+{{#> layouts/base page=(hash title="Home" description=site.description path="/")}}
+
+{{!--
+=========================
+Hero
+=========================
+--}}
+
+<section class="hero stack" aria-labelledby="home-title">
+  <h1 id="home-title">{{site.title}}</h1>
+  <p class="hero__tagline">
+    {{#if site.tagline}}{{site.tagline}}{{else}}{{site.description}}{{/if}}
+  </p>
 </section>
 
-{{!-- Projects anchor so the nav "Projects" (#projects) has a target --}}
-<section id="projects" class="stack">
-  <h2>Projects</h2>
+{{!--
+=========================
+Featured Projects
+- Graceful if data missing/empty (no orphan section content)
+=========================
+--}}
+
+<section id="projects" class="home-section stack" aria-labelledby="projects-title">
+  <h2 id="projects-title">Projects</h2>
+
+  {{#if site.projects}}
+  {{#if site.projects.length}}
+  <ul class="cards">
+    {{#each site.projects}}
+    {{#if this.featured}}
+    <li class="card">
+      {{#if this.url}}
+      <a class="card__link" href="{{prefixBase this.url ../../site.base}}">
+        <h3 class="card__title">{{this.title}}</h3>
+        {{#if this.summary}}<p class="card__summary">{{this.summary}}</p>{{/if}}
+      </a>
+      {{else}}
+      <div class="card__body">
+        <h3 class="card__title">{{this.title}}</h3>
+        {{#if this.summary}}<p class="card__summary">{{this.summary}}</p>{{/if}}
+      </div>
+      {{/if}}
+    </li>
+    {{/if}}
+    {{/each}}
+  </ul>
+  {{else}}
   <p>Coming soon.</p>
+  {{/if}}
+  {{else}}
+  <p>Coming soon.</p>
+  {{/if}}
 </section>
 
-{{!-- Contact anchor so the nav "Contact" (#contact) has a target --}}
-<section id="contact" class="stack">
-  <h2>Contact</h2>
-  <p>Drop a note via <a href="https://github.com/jaygtel">GitHub</a>.</p>
+{{!--
+=========================
+Contact call-to-action
+=========================
+--}}
+
+<section id="contact" class="home-section stack" aria-labelledby="contact-title">
+  <h2 id="contact-title">Contact</h2>
+  <p class="contact__blurb">Want to say hi or share an idea?</p>
+  <p>
+    {{!-- Placeholder CTA for now; proper form/page comes later (#11/#forms).
+    Use external link to GitHub profile as in baseline. --}}
+    <a class="button" href="https://github.com/jaygtel" rel="noopener">Message me on GitHub</a>
+  </p>
 </section>
+
 {{/layouts/base}}

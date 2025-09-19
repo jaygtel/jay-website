@@ -1,4 +1,30 @@
 /* sections/_home.scss
-   Page/section-level styles used on Home (hero, featured projects, etc.).
-   Detailed rules later; placeholder for now.
+   Page-level styles for Home sections (hero, projects, contact).
+   Mobile-first spacings; no animations.
 */
+
+.hero {
+   padding-block: 2rem;
+   /* top & bottom */
+}
+
+.hero__tagline {
+   max-width: 65ch;
+}
+
+.home-section {
+   padding-block: 1.5rem;
+}
+
+/* Slightly roomier on larger screens */
+@media (min-width: 48rem) {
+
+   /* ~768px */
+   .hero {
+      padding-block: 3rem;
+   }
+
+   .home-section {
+      padding-block: 2rem;
+   }
+}
