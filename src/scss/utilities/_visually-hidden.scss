@@ -1,8 +1,12 @@
-/* utilities/_visually-hidden.scss
-   A standard “visually hidden but screen-reader accessible” helper.
-   MDN discussion: https://developer.mozilla.org/docs/Web/Accessibility/ARIA/Attributes/aria-hidden#hiding_content_visually
+/* src/scss/utilities/_visually-hidden.scss
+   Accessible helpers: visually-hidden + skip-link pattern.
+   - .sr-only / .visually-hidden: hide content visually but keep it for screen readers.
+   - .skip-link: off-screen until focused, then revealed with a clear outline.
 */
-.visually-hidden {
+
+.visually-hidden,
+.sr-only {
+  /* Classic "screen-reader only" utility */
   position: absolute !important;
   width: 1px !important;
   height: 1px !important;
@@ -13,4 +17,44 @@
   clip-path: inset(50%) !important;
   white-space: nowrap !important;
   border: 0 !important;
+}
+
+/* Keyboard-accessible "Skip to content" link */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+
+  /* Hidden by default (not display:none so it can still be focused) */
+  transform: translateY(-200%);
+  transition: transform 0.12s ease-in-out;
+
+  /* Legible, high-contrast default styling */
+  background: #fff;
+  color: #000;
+  border: 2px solid currentColor;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  line-height: 1;
+  text-decoration: none;
+  z-index: 1000;
+
+  /* Reveal on focus */
+  &:focus,
+  &:focus-visible {
+    transform: translateY(0);
+    outline: none;
+    /* we already show a strong border */
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/* Optional: ensure links show a visible style even if :focus-visible is not supported */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
